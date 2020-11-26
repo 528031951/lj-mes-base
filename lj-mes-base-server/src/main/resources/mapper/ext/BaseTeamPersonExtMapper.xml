@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseTeamPersonExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.BaseTeamPersonDTO">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="USER_ID" jdbcType="NUMERIC" property="userId"/>
+        <result column="TEAM_ID" jdbcType="NUMERIC" property="teamId"/>
+    </resultMap>
+
+    <select id="queryUserId" resultMap="BaseResultMap"
+            parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamPersonDTO">
+        SELECT USER_ID from BASE_TEAM_PERSON WHERE TEAM_ID = #{teamId}
+        <if test="userId != null">
+            AND USER_ID=#{userId}
+        </if>
+    </select>
+    <select id="queryWorkCenterId" resultMap="BaseResultMap"
+            parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamPersonDTO">
+        SELECT location_id from base_team_children WHERE TEAM_ID = #{teamId}
+        <if test="locationId != null">
+            AND location_id=#{locationId}
+        </if>
+    </select>
+    <delete id="deleteBy" parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamPersonDTO">
+        delete from BASE_TEAM_PERSON where TEAM_ID = #{teamId}
+        <if test="userId != null">
+            AND USER_ID=#{userId}
+        </if>
+    </delete>
+    <update id="updateStatus" parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamPersonDTO">
+
+        update BASE_TEAM_PERSON
+        <if test="status ==1">
+            set status = 1
+        </if>
+        <if test="status ==0">
+            set status = 0
+        </if>
+        where TEAM_ID = #{teamId}
+        <if test="userId != null">
+            AND USER_ID=#{userId}
+        </if>
+    </update>
+    <update id="updateWorlCenterTeamStatus" parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamPersonDTO">
+        update base_team_children
+        <if test="isEnable ==1">
+            set is_enable = 1
+        </if>
+        <if test="isEnable ==0">
+            set is_enable = 0
+        </if>
+        where TEAM_ID = #{teamId}
+        <if test="locationId != null">
+            AND location_id=#{locationId}
+        </if>
+    </update>
+</mapper>

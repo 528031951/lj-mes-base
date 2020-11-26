@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseSchedulingExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.BaseSchedulingDTO">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="TEAM_ID" jdbcType="NUMERIC" property="teamId"/>
+        <result column="PRODUCTION_LINE_ID" jdbcType="NUMERIC" property="productionLineId"/>
+        <result column="SHIFT_ID" jdbcType="NUMERIC" property="shiftId"/>
+    </resultMap>
+    <resultMap id="BaseVoResultMap" type="com.bpm.lj.mes.base.server.vo.BaseSchedulingVo">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="FORMAT_TIME" jdbcType="TIMESTAMP" property="formatTime"/>
+        <result column="TEAM_NAME" jdbcType="VARCHAR" property="teamName"/>
+        <result column="SHIFT_NAME" jdbcType="VARCHAR" property="shiftName"/>
+    </resultMap>
+    <select id="querySchedulingList" resultMap="BaseVoResultMap"
+            parameterType="com.bpm.lj.mes.base.server.dto.BaseSchedulingDTO">
+        SELECT bt.team_name,bh.shift_name,bs.FORMAT_TIME
+        FROM BASE_SCHEDULING bs
+        join BASE_TEAM bt on bt.id=bs.TEAM_ID
+        join BASE_SHIFT bh ON bh.ID=bs.Shift_id
+        where 1 = 1
+        <if test="productionLineId!=null">
+            AND bs.PRODUCTION_LINE_ID = #{productionLineId}
+        </if>
+        <if test="formatTime != null">
+            AND bs.FORMAT_TIME=#{formatTime}
+        </if>
+
+    </select>
+
+    <select id="echoList" resultType="com.bpm.lj.mes.base.server.dto.BaseSchedulingDTO">
+        select team_Id as teamId ,shift_Id as shiftId,id from base_scheduling where format_time  = #{formatTime}
+    </select>
+    <delete id="deleteByTime" parameterType="java.lang.String">
+        delete from base_scheduling where format_time  = #{formatTime}
+    </delete>
+</mapper>

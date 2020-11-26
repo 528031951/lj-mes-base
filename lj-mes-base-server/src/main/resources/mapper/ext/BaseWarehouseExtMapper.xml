@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseWarehouseExtMapper">
+    <select id="findTree" parameterType="com.bpm.lj.mes.base.server.dto.DictTreeNode"
+            resultType="com.bpm.lj.mes.base.server.dto.DictTreeNode">
+        SELECT ID,NAME as storageLocationName,CODE as storageLocationCod,P_ID as parentId,type,erp_warehouse_code as
+        erpWarehouseCode
+
+        , erp_warehouse_name as erpWarehouseName from base_warehouse
+        where
+        1=1
+        <if test="parentId != null">
+            and P_ID =#{parentId}
+        </if>
+        <if test="parentId == null">
+            and p_id is null and type = 10
+        </if>
+    </select>
+    <select id="findByParentId" resultType="com.bpm.lj.mes.base.server.dto.BaseWarehouseDTO">
+        SELECT * FROM base_warehouse WHERE PARENT_ID = #{parentId}
+    </select>
+    <select id="print" resultType="com.bpm.lj.mes.base.server.dto.BaseWarehouseDTO">
+        SELECT * FROM base_warehouse WHERE GRADE in('流利货架','高位货架','储位')
+    </select>
+    <select id="findByGrade" resultType="com.bpm.lj.mes.base.server.domain.BaseWarehouse">
+        select code from base_warehouse where GRADE=#{grade}
+    </select>
+    <select id="findDownNodeCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+      select count(*) from base_warehouse b1,base_warehouse b2 where b1.ID=b2.P_ID and b1.ID=#{id}
+  </select>
+    <select id="selectByParentId" resultType="com.bpm.lj.mes.base.server.domain.BaseWarehouse">
+      select * from base_warehouse where PARENT_ID=#{parentId}
+    </select>
+    <select id="warehousePrinting" resultType="com.bpm.lj.mes.base.server.vo.WarehousePrintingVo"
+            parameterType="com.bpm.lj.mes.base.server.vo.WarehousePrintingVo">
+        SELECT
+        w.id,
+        b.CODE ,
+        b.NAME,
+        w.CODE AS locationCode,
+        w.NAME AS locationName ,
+        w.create_time as createTime
+        FROM
+        base_warehouse b
+        LEFT JOIN base_warehouse w ON b.id = w.p_id
+        WHERE
+        w.type = 40
+        <if test="code != null">and b.CODE = #{code}</if>
+        <if test="locationCode != null ">and w.CODE = #{locationCode}</if>
+        order by w.create_time desc
+    </select>
+    <select id="locationList" resultType="com.bpm.lj.mes.base.server.vo.WarehousePrintingVo"
+            parameterType="java.lang.Integer">
+        select name,code,id from base_warehouse where type = #{type}
+    </select>
+    <select id="erpLocationList" resultType="com.bpm.lj.mes.base.server.vo.DeptVo"
+            parameterType="com.bpm.lj.mes.base.server.vo.DeptVo">
+    select  cWhCode as code ,cWhName as name  from warehouse
+</select>
+    <select id="erpLocation" parameterType="java.lang.String" resultType="java.lang.String">
+        select cWhName  from warehouse where cWhCode = #{code}
+    </select>
+    <select id="typeList" resultType="com.bpm.lj.mes.base.server.vo.DeptVo">
+   select id,name  from base_dictionary_maintenance WHERE  code like concat('%','warehouse_type_code','%')
+    </select>
+    <select id="findTreeId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select parent_id from  base_dictionary_maintenance where code = #{str}
+    </select>
+    <update id="updateType" parameterType="com.bpm.lj.mes.base.server.dto.BaseWarehouseDTO">
+        update base_dictionary_maintenance set parent_id = #{dictionariesId} where code = #{erpWarehouseCode}
+    </update>
+</mapper>

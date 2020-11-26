@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseDictionaryMaintenanceExtMapper">
+    <!--查询对象-->
+    <select id="selectDictionaryMaintenancePageList"
+            parameterType="com.bpm.lj.mes.base.server.dto.DictionaryMaintenanceQueryDTO"
+            resultType="com.bpm.lj.mes.base.server.vo.DictionaryMaintenanceTreeNode">
+        SELECT
+        id,parent_id as parentId,code,name,status,create_time as createTime
+        FROM
+        base_dictionary_maintenance t
+        <where>
+            1=1
+            <if test="code != null and code != ''">
+                and code like '%' + #{code} + '%'
+            </if>
+            <if test="name != null and name != ''">
+                and name like '%' + #{name} + '%'
+            </if>
+        </where>
+        order by t.create_time desc
+    </select>
+
+    <!--查询是否重复-->
+    <select id="selectIsRepate" parameterType="com.bpm.lj.mes.base.server.dto.DictionaryMaintenanceDTO"
+            resultType="com.bpm.lj.mes.base.server.domain.BaseDictionaryMaintenance">
+        SELECT
+        id,name,code,status
+        FROM
+        base_dictionary_maintenance
+        <where>
+            1=1
+            <if test="(code != null and code != '') and (name != null and name != '') ">
+                and (code = #{code} or name = #{name})
+            </if>
+            <if test="(code != null and code != '') and (name == null or name == '')">
+                and code = #{code}
+            </if>
+            <if test="(code == null or code == '') and (name != null and name != '')">
+                and name = #{name}
+            </if>
+            <if test="(id != null and id != '')">
+                and id != #{id}
+            </if>
+
+        </where>
+    </select>
+
+
+    <update id="deleteByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.dto.DictionaryMaintenanceDeleteDTO">
+        update base_dictionary_maintenance set status = #{status}
+        where id = #{id}
+    </update>
+
+
+    <!--根据名字查主键id，导入时设置状态-->
+    <select id="selectByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from base_dictionary_maintenance
+        where name = #{name}
+    </select>
+
+    <!--根据名字查字典-->
+    <select id="selectDicByName" parameterType="java.lang.String"
+            resultType="com.bpm.lj.mes.base.server.vo.DictionaryMaintenanceTreeNode">
+        select id,code,name from base_dictionary_maintenance
+        where name = #{name}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.WarehouseInventeInMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseInventeIn">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="machine_model" jdbcType="VARCHAR" property="machineModel" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="req_departure_date" jdbcType="TIMESTAMP" property="reqDepartureDate" />
+    <result column="machine_status" jdbcType="INTEGER" property="machineStatus" />
+    <result column="batch_operation_date" jdbcType="TIMESTAMP" property="batchOperationDate" />
+    <result column="feede_end_date" jdbcType="TIMESTAMP" property="feedeEndDate" />
+    <result column="invente_in_date" jdbcType="TIMESTAMP" property="inventeInDate" />
+    <result column="invente_in_status" jdbcType="INTEGER" property="inventeInStatus" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="erp_batch_code" jdbcType="VARCHAR" property="erpBatchCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, machine_model, model, req_departure_date, machine_status, batch_operation_date, 
+    feede_end_date, invente_in_date, invente_in_status, remarks, create_time, creater_id, 
+    update_time, updater_id, erp_batch_code
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeInExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from warehouse_invente_in
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_invente_in
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_invente_in
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeInExample">
+    delete from warehouse_invente_in
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeIn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_invente_in (machine_model, model, req_departure_date, 
+      machine_status, batch_operation_date, feede_end_date, 
+      invente_in_date, invente_in_status, remarks, 
+      create_time, creater_id, update_time, 
+      updater_id, erp_batch_code)
+    values (#{machineModel,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{reqDepartureDate,jdbcType=TIMESTAMP}, 
+      #{machineStatus,jdbcType=INTEGER}, #{batchOperationDate,jdbcType=TIMESTAMP}, #{feedeEndDate,jdbcType=TIMESTAMP}, 
+      #{inventeInDate,jdbcType=TIMESTAMP}, #{inventeInStatus,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updaterId,jdbcType=INTEGER}, #{erpBatchCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeIn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_invente_in
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="machineModel != null">
+        machine_model,
+      </if>
+      <if test="model != null">
+        model,
+      </if>
+      <if test="reqDepartureDate != null">
+        req_departure_date,
+      </if>
+      <if test="machineStatus != null">
+        machine_status,
+      </if>
+      <if test="batchOperationDate != null">
+        batch_operation_date,
+      </if>
+      <if test="feedeEndDate != null">
+        feede_end_date,
+      </if>
+      <if test="inventeInDate != null">
+        invente_in_date,
+      </if>
+      <if test="inventeInStatus != null">
+        invente_in_status,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="erpBatchCode != null">
+        erp_batch_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="machineModel != null">
+        #{machineModel,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="reqDepartureDate != null">
+        #{reqDepartureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="machineStatus != null">
+        #{machineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="batchOperationDate != null">
+        #{batchOperationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedeEndDate != null">
+        #{feedeEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventeInDate != null">
+        #{inventeInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventeInStatus != null">
+        #{inventeInStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="erpBatchCode != null">
+        #{erpBatchCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeInExample" resultType="java.lang.Long">
+    select count(*) from warehouse_invente_in
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update warehouse_invente_in
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.machineModel != null">
+        machine_model = #{record.machineModel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.model != null">
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reqDepartureDate != null">
+        req_departure_date = #{record.reqDepartureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.machineStatus != null">
+        machine_status = #{record.machineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.batchOperationDate != null">
+        batch_operation_date = #{record.batchOperationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.feedeEndDate != null">
+        feede_end_date = #{record.feedeEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inventeInDate != null">
+        invente_in_date = #{record.inventeInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inventeInStatus != null">
+        invente_in_status = #{record.inventeInStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.erpBatchCode != null">
+        erp_batch_code = #{record.erpBatchCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update warehouse_invente_in
+    set id = #{record.id,jdbcType=INTEGER},
+      machine_model = #{record.machineModel,jdbcType=VARCHAR},
+      model = #{record.model,jdbcType=VARCHAR},
+      req_departure_date = #{record.reqDepartureDate,jdbcType=TIMESTAMP},
+      machine_status = #{record.machineStatus,jdbcType=INTEGER},
+      batch_operation_date = #{record.batchOperationDate,jdbcType=TIMESTAMP},
+      feede_end_date = #{record.feedeEndDate,jdbcType=TIMESTAMP},
+      invente_in_date = #{record.inventeInDate,jdbcType=TIMESTAMP},
+      invente_in_status = #{record.inventeInStatus,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater_id = #{record.createrId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      erp_batch_code = #{record.erpBatchCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeIn">
+    update warehouse_invente_in
+    <set>
+      <if test="machineModel != null">
+        machine_model = #{machineModel,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="reqDepartureDate != null">
+        req_departure_date = #{reqDepartureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="machineStatus != null">
+        machine_status = #{machineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="batchOperationDate != null">
+        batch_operation_date = #{batchOperationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedeEndDate != null">
+        feede_end_date = #{feedeEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventeInDate != null">
+        invente_in_date = #{inventeInDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inventeInStatus != null">
+        invente_in_status = #{inventeInStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="erpBatchCode != null">
+        erp_batch_code = #{erpBatchCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseInventeIn">
+    update warehouse_invente_in
+    set machine_model = #{machineModel,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      req_departure_date = #{reqDepartureDate,jdbcType=TIMESTAMP},
+      machine_status = #{machineStatus,jdbcType=INTEGER},
+      batch_operation_date = #{batchOperationDate,jdbcType=TIMESTAMP},
+      feede_end_date = #{feedeEndDate,jdbcType=TIMESTAMP},
+      invente_in_date = #{inventeInDate,jdbcType=TIMESTAMP},
+      invente_in_status = #{inventeInStatus,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      erp_batch_code = #{erpBatchCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

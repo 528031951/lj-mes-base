@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: lj-mes-base
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  redis:
+    host: 10.0.10.24
+    port: 6399
+   #  10.0.10.32  192.168.31.49    10.0.10.24
+pagehelper:
+  #  helperDialect: oracle
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  page-size-zero: true
+mybatis:
+  typeAliasesPackage: com.bpm.lj.mes.base.server.mapper
+  mapperLocations: classpath:mapper/*/*.xml
+rule:
+  log:
+    enable: false
+  service-name: lj-mes-base服务
+# 个推配置
+apush:
+  config:
+    gexin:
+      appId: eKAkWqWBuY7bVKqnjXgYH6
+      appKey: GDRiTkHYnqAxQVJV9iQpJA
+      masterSecret: 6XmuN68E0x7Jz0pKhqv357
+# 邮件推送配置
+exchange:
+  mail:
+    server: https://mail.cqgdcy.com/ews/exchange.asmx
+    user: mesadmin
+    password: Gdcymes
+# 服务版本管理配置
+info:
+  build:
+    artifact: '@project.artifactId@'
+    version: '@project.version@'
+    server-name: ${rule.service-name}
+#日志输出mybatis里面的sql
+logging:
+  level:
+    com.bpm.lj.mes.base.server.mapper: debug
+

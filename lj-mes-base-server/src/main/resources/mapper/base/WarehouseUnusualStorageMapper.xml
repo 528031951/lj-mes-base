@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.WarehouseUnusualStorageMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="receipt_date" jdbcType="TIMESTAMP" property="receiptDate" />
+    <result column="stock_no" jdbcType="VARCHAR" property="stockNo" />
+    <result column="stock_name" jdbcType="VARCHAR" property="stockName" />
+    <result column="specs_type" jdbcType="VARCHAR" property="specsType" />
+    <result column="delivery_order_no" jdbcType="VARCHAR" property="deliveryOrderNo" />
+    <result column="count_num" jdbcType="DECIMAL" property="countNum" />
+    <result column="check_onum" jdbcType="DECIMAL" property="checkOnum" />
+    <result column="un_code" jdbcType="VARCHAR" property="unCode" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="person_liable" jdbcType="INTEGER" property="personLiable" />
+    <result column="exception_date" jdbcType="TIMESTAMP" property="exceptionDate" />
+    <result column="exception_remarks" jdbcType="VARCHAR" property="exceptionRemarks" />
+    <result column="exception_type" jdbcType="VARCHAR" property="exceptionType" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="abnormal_num" jdbcType="INTEGER" property="abnormalNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="register_num" jdbcType="INTEGER" property="registerNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, supplier_name, receipt_date, stock_no, stock_name, specs_type, delivery_order_no, 
+    count_num, check_onum, un_code, batch_no, person_liable, exception_date, exception_remarks, 
+    exception_type, remarks, create_time, creater_id, update_time, updater_id, abnormal_num, 
+    `status`, register_num
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from warehouse_unusual_storage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_unusual_storage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_unusual_storage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorageExample">
+    delete from warehouse_unusual_storage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_unusual_storage (order_no, supplier_name, receipt_date, 
+      stock_no, stock_name, specs_type, 
+      delivery_order_no, count_num, check_onum, 
+      un_code, batch_no, person_liable, 
+      exception_date, exception_remarks, exception_type, 
+      remarks, create_time, creater_id, 
+      update_time, updater_id, abnormal_num, 
+      `status`, register_num)
+    values (#{orderNo,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{receiptDate,jdbcType=TIMESTAMP}, 
+      #{stockNo,jdbcType=VARCHAR}, #{stockName,jdbcType=VARCHAR}, #{specsType,jdbcType=VARCHAR}, 
+      #{deliveryOrderNo,jdbcType=VARCHAR}, #{countNum,jdbcType=DECIMAL}, #{checkOnum,jdbcType=DECIMAL}, 
+      #{unCode,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, #{personLiable,jdbcType=INTEGER}, 
+      #{exceptionDate,jdbcType=TIMESTAMP}, #{exceptionRemarks,jdbcType=VARCHAR}, #{exceptionType,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=INTEGER}, #{abnormalNum,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{registerNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_unusual_storage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="receiptDate != null">
+        receipt_date,
+      </if>
+      <if test="stockNo != null">
+        stock_no,
+      </if>
+      <if test="stockName != null">
+        stock_name,
+      </if>
+      <if test="specsType != null">
+        specs_type,
+      </if>
+      <if test="deliveryOrderNo != null">
+        delivery_order_no,
+      </if>
+      <if test="countNum != null">
+        count_num,
+      </if>
+      <if test="checkOnum != null">
+        check_onum,
+      </if>
+      <if test="unCode != null">
+        un_code,
+      </if>
+      <if test="batchNo != null">
+        batch_no,
+      </if>
+      <if test="personLiable != null">
+        person_liable,
+      </if>
+      <if test="exceptionDate != null">
+        exception_date,
+      </if>
+      <if test="exceptionRemarks != null">
+        exception_remarks,
+      </if>
+      <if test="exceptionType != null">
+        exception_type,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="abnormalNum != null">
+        abnormal_num,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="registerNum != null">
+        register_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptDate != null">
+        #{receiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockNo != null">
+        #{stockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockName != null">
+        #{stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="specsType != null">
+        #{specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryOrderNo != null">
+        #{deliveryOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="countNum != null">
+        #{countNum,jdbcType=DECIMAL},
+      </if>
+      <if test="checkOnum != null">
+        #{checkOnum,jdbcType=DECIMAL},
+      </if>
+      <if test="unCode != null">
+        #{unCode,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="personLiable != null">
+        #{personLiable,jdbcType=INTEGER},
+      </if>
+      <if test="exceptionDate != null">
+        #{exceptionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionRemarks != null">
+        #{exceptionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionType != null">
+        #{exceptionType,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalNum != null">
+        #{abnormalNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="registerNum != null">
+        #{registerNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorageExample" resultType="java.lang.Long">
+    select count(*) from warehouse_unusual_storage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update warehouse_unusual_storage
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierName != null">
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiptDate != null">
+        receipt_date = #{record.receiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stockNo != null">
+        stock_no = #{record.stockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stockName != null">
+        stock_name = #{record.stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specsType != null">
+        specs_type = #{record.specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryOrderNo != null">
+        delivery_order_no = #{record.deliveryOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countNum != null">
+        count_num = #{record.countNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.checkOnum != null">
+        check_onum = #{record.checkOnum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unCode != null">
+        un_code = #{record.unCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null">
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personLiable != null">
+        person_liable = #{record.personLiable,jdbcType=INTEGER},
+      </if>
+      <if test="record.exceptionDate != null">
+        exception_date = #{record.exceptionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.exceptionRemarks != null">
+        exception_remarks = #{record.exceptionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exceptionType != null">
+        exception_type = #{record.exceptionType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.abnormalNum != null">
+        abnormal_num = #{record.abnormalNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.registerNum != null">
+        register_num = #{record.registerNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update warehouse_unusual_storage
+    set id = #{record.id,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      receipt_date = #{record.receiptDate,jdbcType=TIMESTAMP},
+      stock_no = #{record.stockNo,jdbcType=VARCHAR},
+      stock_name = #{record.stockName,jdbcType=VARCHAR},
+      specs_type = #{record.specsType,jdbcType=VARCHAR},
+      delivery_order_no = #{record.deliveryOrderNo,jdbcType=VARCHAR},
+      count_num = #{record.countNum,jdbcType=DECIMAL},
+      check_onum = #{record.checkOnum,jdbcType=DECIMAL},
+      un_code = #{record.unCode,jdbcType=VARCHAR},
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      person_liable = #{record.personLiable,jdbcType=INTEGER},
+      exception_date = #{record.exceptionDate,jdbcType=TIMESTAMP},
+      exception_remarks = #{record.exceptionRemarks,jdbcType=VARCHAR},
+      exception_type = #{record.exceptionType,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater_id = #{record.createrId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      abnormal_num = #{record.abnormalNum,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER},
+      register_num = #{record.registerNum,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorage">
+    update warehouse_unusual_storage
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptDate != null">
+        receipt_date = #{receiptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stockNo != null">
+        stock_no = #{stockNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stockName != null">
+        stock_name = #{stockName,jdbcType=VARCHAR},
+      </if>
+      <if test="specsType != null">
+        specs_type = #{specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryOrderNo != null">
+        delivery_order_no = #{deliveryOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="countNum != null">
+        count_num = #{countNum,jdbcType=DECIMAL},
+      </if>
+      <if test="checkOnum != null">
+        check_onum = #{checkOnum,jdbcType=DECIMAL},
+      </if>
+      <if test="unCode != null">
+        un_code = #{unCode,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="personLiable != null">
+        person_liable = #{personLiable,jdbcType=INTEGER},
+      </if>
+      <if test="exceptionDate != null">
+        exception_date = #{exceptionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionRemarks != null">
+        exception_remarks = #{exceptionRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionType != null">
+        exception_type = #{exceptionType,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="abnormalNum != null">
+        abnormal_num = #{abnormalNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="registerNum != null">
+        register_num = #{registerNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseUnusualStorage">
+    update warehouse_unusual_storage
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      receipt_date = #{receiptDate,jdbcType=TIMESTAMP},
+      stock_no = #{stockNo,jdbcType=VARCHAR},
+      stock_name = #{stockName,jdbcType=VARCHAR},
+      specs_type = #{specsType,jdbcType=VARCHAR},
+      delivery_order_no = #{deliveryOrderNo,jdbcType=VARCHAR},
+      count_num = #{countNum,jdbcType=DECIMAL},
+      check_onum = #{checkOnum,jdbcType=DECIMAL},
+      un_code = #{unCode,jdbcType=VARCHAR},
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      person_liable = #{personLiable,jdbcType=INTEGER},
+      exception_date = #{exceptionDate,jdbcType=TIMESTAMP},
+      exception_remarks = #{exceptionRemarks,jdbcType=VARCHAR},
+      exception_type = #{exceptionType,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      abnormal_num = #{abnormalNum,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      register_num = #{registerNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

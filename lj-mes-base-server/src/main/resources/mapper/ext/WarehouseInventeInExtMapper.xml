@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.WarehouseInventeInExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.WarehouseInventeInDTO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="machine_model" jdbcType="VARCHAR" property="machineModel" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="req_departure_date" jdbcType="TIMESTAMP" property="reqDepartureDate" />
+    <result column="machine_status" jdbcType="INTEGER" property="machineStatus" />
+    <result column="batch_operation_date" jdbcType="TIMESTAMP" property="batchOperationDate" />
+    <result column="feede_end_date" jdbcType="TIMESTAMP" property="feedeEndDate" />
+    <result column="invente_in_date" jdbcType="TIMESTAMP" property="inventeInDate" />
+    <result column="invente_in_status" jdbcType="INTEGER" property="inventeInStatus" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="erp_batch_code" jdbcType="VARCHAR" property="erpBatchCode" />
+  </resultMap>
+   <select id="queryPageList" parameterType="com.bpm.lj.mes.base.server.dto.WarehouseInventeInDTO" resultMap="BaseResultMap">
+     select  id, machine_model, model, req_departure_date, machine_status, batch_operation_date,
+    feede_end_date, invente_in_date, invente_in_status, remarks, create_time, creater_id,
+    update_time, updater_id, erp_batch_code from warehouse_invente_in
+   </select>
+</mapper>

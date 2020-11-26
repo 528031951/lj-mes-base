@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.BaseModelProcessTimeMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.BaseModelProcessTime">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="worhcenter_code" jdbcType="VARCHAR" property="worhcenterCode" />
+    <result column="worhcenter_name" jdbcType="VARCHAR" property="worhcenterName" />
+    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+    <result column="process_name" jdbcType="VARCHAR" property="processName" />
+    <result column="base_operation_id" jdbcType="INTEGER" property="baseOperationId" />
+    <result column="std_time" jdbcType="DOUBLE" property="stdTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_id" jdbcType="INTEGER" property="createId" />
+    <result column="update_id" jdbcType="INTEGER" property="updateId" />
+    <result column="machine_code" jdbcType="VARCHAR" property="machineCode" />
+    <result column="series" jdbcType="VARCHAR" property="series" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="worhcenter_id" jdbcType="INTEGER" property="worhcenterId" />
+    <result column="team_id" jdbcType="INTEGER" property="teamId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, worhcenter_code, worhcenter_name, process_code, process_name, base_operation_id, 
+    std_time, create_time, update_time, create_id, update_id, machine_code, series, `status`, 
+    worhcenter_id, team_id
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTimeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from base_model_process_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_model_process_time
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from base_model_process_time
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTimeExample">
+    delete from base_model_process_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTime">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into base_model_process_time (worhcenter_code, worhcenter_name, process_code, 
+      process_name, base_operation_id, std_time, 
+      create_time, update_time, create_id, 
+      update_id, machine_code, series, 
+      `status`, worhcenter_id, team_id
+      )
+    values (#{worhcenterCode,jdbcType=VARCHAR}, #{worhcenterName,jdbcType=VARCHAR}, #{processCode,jdbcType=VARCHAR}, 
+      #{processName,jdbcType=VARCHAR}, #{baseOperationId,jdbcType=INTEGER}, #{stdTime,jdbcType=DOUBLE}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createId,jdbcType=INTEGER}, 
+      #{updateId,jdbcType=INTEGER}, #{machineCode,jdbcType=VARCHAR}, #{series,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{worhcenterId,jdbcType=INTEGER}, #{teamId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTime">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into base_model_process_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="worhcenterCode != null">
+        worhcenter_code,
+      </if>
+      <if test="worhcenterName != null">
+        worhcenter_name,
+      </if>
+      <if test="processCode != null">
+        process_code,
+      </if>
+      <if test="processName != null">
+        process_name,
+      </if>
+      <if test="baseOperationId != null">
+        base_operation_id,
+      </if>
+      <if test="stdTime != null">
+        std_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createId != null">
+        create_id,
+      </if>
+      <if test="updateId != null">
+        update_id,
+      </if>
+      <if test="machineCode != null">
+        machine_code,
+      </if>
+      <if test="series != null">
+        series,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="worhcenterId != null">
+        worhcenter_id,
+      </if>
+      <if test="teamId != null">
+        team_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="worhcenterCode != null">
+        #{worhcenterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="worhcenterName != null">
+        #{worhcenterName,jdbcType=VARCHAR},
+      </if>
+      <if test="processCode != null">
+        #{processCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processName != null">
+        #{processName,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOperationId != null">
+        #{baseOperationId,jdbcType=INTEGER},
+      </if>
+      <if test="stdTime != null">
+        #{stdTime,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=INTEGER},
+      </if>
+      <if test="machineCode != null">
+        #{machineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="series != null">
+        #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="worhcenterId != null">
+        #{worhcenterId,jdbcType=INTEGER},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTimeExample" resultType="java.lang.Long">
+    select count(*) from base_model_process_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update base_model_process_time
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.worhcenterCode != null">
+        worhcenter_code = #{record.worhcenterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.worhcenterName != null">
+        worhcenter_name = #{record.worhcenterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processCode != null">
+        process_code = #{record.processCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processName != null">
+        process_name = #{record.processName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.baseOperationId != null">
+        base_operation_id = #{record.baseOperationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stdTime != null">
+        std_time = #{record.stdTime,jdbcType=DOUBLE},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createId != null">
+        create_id = #{record.createId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateId != null">
+        update_id = #{record.updateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.machineCode != null">
+        machine_code = #{record.machineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.series != null">
+        series = #{record.series,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.worhcenterId != null">
+        worhcenter_id = #{record.worhcenterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.teamId != null">
+        team_id = #{record.teamId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update base_model_process_time
+    set id = #{record.id,jdbcType=INTEGER},
+      worhcenter_code = #{record.worhcenterCode,jdbcType=VARCHAR},
+      worhcenter_name = #{record.worhcenterName,jdbcType=VARCHAR},
+      process_code = #{record.processCode,jdbcType=VARCHAR},
+      process_name = #{record.processName,jdbcType=VARCHAR},
+      base_operation_id = #{record.baseOperationId,jdbcType=INTEGER},
+      std_time = #{record.stdTime,jdbcType=DOUBLE},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_id = #{record.createId,jdbcType=INTEGER},
+      update_id = #{record.updateId,jdbcType=INTEGER},
+      machine_code = #{record.machineCode,jdbcType=VARCHAR},
+      series = #{record.series,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      worhcenter_id = #{record.worhcenterId,jdbcType=INTEGER},
+      team_id = #{record.teamId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTime">
+    update base_model_process_time
+    <set>
+      <if test="worhcenterCode != null">
+        worhcenter_code = #{worhcenterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="worhcenterName != null">
+        worhcenter_name = #{worhcenterName,jdbcType=VARCHAR},
+      </if>
+      <if test="processCode != null">
+        process_code = #{processCode,jdbcType=VARCHAR},
+      </if>
+      <if test="processName != null">
+        process_name = #{processName,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOperationId != null">
+        base_operation_id = #{baseOperationId,jdbcType=INTEGER},
+      </if>
+      <if test="stdTime != null">
+        std_time = #{stdTime,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        create_id = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateId != null">
+        update_id = #{updateId,jdbcType=INTEGER},
+      </if>
+      <if test="machineCode != null">
+        machine_code = #{machineCode,jdbcType=VARCHAR},
+      </if>
+      <if test="series != null">
+        series = #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="worhcenterId != null">
+        worhcenter_id = #{worhcenterId,jdbcType=INTEGER},
+      </if>
+      <if test="teamId != null">
+        team_id = #{teamId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.BaseModelProcessTime">
+    update base_model_process_time
+    set worhcenter_code = #{worhcenterCode,jdbcType=VARCHAR},
+      worhcenter_name = #{worhcenterName,jdbcType=VARCHAR},
+      process_code = #{processCode,jdbcType=VARCHAR},
+      process_name = #{processName,jdbcType=VARCHAR},
+      base_operation_id = #{baseOperationId,jdbcType=INTEGER},
+      std_time = #{stdTime,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=INTEGER},
+      update_id = #{updateId,jdbcType=INTEGER},
+      machine_code = #{machineCode,jdbcType=VARCHAR},
+      series = #{series,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      worhcenter_id = #{worhcenterId,jdbcType=INTEGER},
+      team_id = #{teamId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

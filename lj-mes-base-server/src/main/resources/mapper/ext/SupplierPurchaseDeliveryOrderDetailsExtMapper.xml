@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.SupplierPurchaseDeliveryOrderDetailsExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="material_code" jdbcType="VARCHAR" property="materialCode" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="specs_type" jdbcType="VARCHAR" property="specsType" />
+    <result column="cAcc_Id" jdbcType="INTEGER" property="caccId" />
+    <result column="order_number" jdbcType="DECIMAL" property="orderNumber" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="purchase_delivery_order_id" jdbcType="INTEGER" property="purchaseDeliveryOrderId" />
+    <result column="quantity_num" jdbcType="DECIMAL" property="quantityNum" />
+    <result column="current_status" jdbcType="INTEGER" property="currentStatus" />
+    <result column="urgent" jdbcType="INTEGER" property="urgent" />
+    <result column="drawe_no" jdbcType="VARCHAR" property="draweNo" />
+    <result column="delivery_order_no" jdbcType="VARCHAR" property="deliveryOrderNo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="material_batch_code" jdbcType="VARCHAR" property="materialBatchCode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="special_num" jdbcType="INTEGER" property="specialNum" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+  </resultMap>
+   <select id="queryId" resultType="java.lang.Integer" parameterType="com.bpm.lj.mes.base.server.dto.WarehouseSalesReturnDTO">
+     select id from supplier_purchase_delivery_order_details where
+     order_no = #{orderNo} and  substring_index(material_batch_code, '#', -1) = #{batchNo}
+   </select>
+</mapper>

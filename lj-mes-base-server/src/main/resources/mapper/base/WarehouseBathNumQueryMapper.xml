@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.WarehouseBathNumQueryMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQuery">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bill_no" jdbcType="VARCHAR" property="billNo" />
+    <result column="contract_no" jdbcType="VARCHAR" property="contractNo" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="bom_no" jdbcType="VARCHAR" property="bomNo" />
+    <result column="material_type" jdbcType="VARCHAR" property="materialType" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="material_model" jdbcType="VARCHAR" property="materialModel" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="demand_no" jdbcType="DECIMAL" property="demandNo" />
+    <result column="inventory_nlocked_num" jdbcType="INTEGER" property="inventoryNlockedNum" />
+    <result column="total_inventory" jdbcType="DECIMAL" property="totalInventory" />
+    <result column="make_no" jdbcType="DECIMAL" property="makeNo" />
+    <result column="fictitious_inventory_quantity" jdbcType="DECIMAL" property="fictitiousInventoryQuantity" />
+    <result column="consignment_stock" jdbcType="DECIMAL" property="consignmentStock" />
+    <result column="purchase_order_not_delivered" jdbcType="DECIMAL" property="purchaseOrderNotDelivered" />
+    <result column="purchase_order_not_deposit" jdbcType="DECIMAL" property="purchaseOrderNotDeposit" />
+    <result column="purchase_quantity_not_deposit" jdbcType="DECIMAL" property="purchaseQuantityNotDeposit" />
+    <result column="n_purchase_num" jdbcType="DECIMAL" property="nPurchaseNum" />
+    <result column="mini_inventory_num" jdbcType="DECIMAL" property="miniInventoryNum" />
+    <result column="max_inventory_num" jdbcType="DECIMAL" property="maxInventoryNum" />
+    <result column="procurement_cycle" jdbcType="VARCHAR" property="procurementCycle" />
+    <result column="lock_status" jdbcType="INTEGER" property="lockStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="nlocked_num" jdbcType="DECIMAL" property="nlockedNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, bill_no, contract_no, batch_no, bom_no, material_type, material_name, material_model, 
+    unit, demand_no, inventory_nlocked_num, total_inventory, make_no, fictitious_inventory_quantity, 
+    consignment_stock, purchase_order_not_delivered, purchase_order_not_deposit, purchase_quantity_not_deposit, 
+    n_purchase_num, mini_inventory_num, max_inventory_num, procurement_cycle, lock_status, 
+    create_time, creater_id, update_time, updater_id, nlocked_num
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQueryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from warehouse_bath_num_query
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_bath_num_query
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_bath_num_query
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQueryExample">
+    delete from warehouse_bath_num_query
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQuery">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_bath_num_query (bill_no, contract_no, batch_no, 
+      bom_no, material_type, material_name, 
+      material_model, unit, demand_no, 
+      inventory_nlocked_num, total_inventory, make_no, 
+      fictitious_inventory_quantity, consignment_stock, 
+      purchase_order_not_delivered, purchase_order_not_deposit, 
+      purchase_quantity_not_deposit, n_purchase_num, 
+      mini_inventory_num, max_inventory_num, procurement_cycle, 
+      lock_status, create_time, creater_id, 
+      update_time, updater_id, nlocked_num
+      )
+    values (#{billNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, 
+      #{bomNo,jdbcType=VARCHAR}, #{materialType,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, 
+      #{materialModel,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{demandNo,jdbcType=DECIMAL}, 
+      #{inventoryNlockedNum,jdbcType=INTEGER}, #{totalInventory,jdbcType=DECIMAL}, #{makeNo,jdbcType=DECIMAL}, 
+      #{fictitiousInventoryQuantity,jdbcType=DECIMAL}, #{consignmentStock,jdbcType=DECIMAL}, 
+      #{purchaseOrderNotDelivered,jdbcType=DECIMAL}, #{purchaseOrderNotDeposit,jdbcType=DECIMAL}, 
+      #{purchaseQuantityNotDeposit,jdbcType=DECIMAL}, #{nPurchaseNum,jdbcType=DECIMAL}, 
+      #{miniInventoryNum,jdbcType=DECIMAL}, #{maxInventoryNum,jdbcType=DECIMAL}, #{procurementCycle,jdbcType=VARCHAR}, 
+      #{lockStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=INTEGER}, #{nlockedNum,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQuery">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_bath_num_query
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="billNo != null">
+        bill_no,
+      </if>
+      <if test="contractNo != null">
+        contract_no,
+      </if>
+      <if test="batchNo != null">
+        batch_no,
+      </if>
+      <if test="bomNo != null">
+        bom_no,
+      </if>
+      <if test="materialType != null">
+        material_type,
+      </if>
+      <if test="materialName != null">
+        material_name,
+      </if>
+      <if test="materialModel != null">
+        material_model,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="demandNo != null">
+        demand_no,
+      </if>
+      <if test="inventoryNlockedNum != null">
+        inventory_nlocked_num,
+      </if>
+      <if test="totalInventory != null">
+        total_inventory,
+      </if>
+      <if test="makeNo != null">
+        make_no,
+      </if>
+      <if test="fictitiousInventoryQuantity != null">
+        fictitious_inventory_quantity,
+      </if>
+      <if test="consignmentStock != null">
+        consignment_stock,
+      </if>
+      <if test="purchaseOrderNotDelivered != null">
+        purchase_order_not_delivered,
+      </if>
+      <if test="purchaseOrderNotDeposit != null">
+        purchase_order_not_deposit,
+      </if>
+      <if test="purchaseQuantityNotDeposit != null">
+        purchase_quantity_not_deposit,
+      </if>
+      <if test="nPurchaseNum != null">
+        n_purchase_num,
+      </if>
+      <if test="miniInventoryNum != null">
+        mini_inventory_num,
+      </if>
+      <if test="maxInventoryNum != null">
+        max_inventory_num,
+      </if>
+      <if test="procurementCycle != null">
+        procurement_cycle,
+      </if>
+      <if test="lockStatus != null">
+        lock_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="nlockedNum != null">
+        nlocked_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null">
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bomNo != null">
+        #{bomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialType != null">
+        #{materialType,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="materialModel != null">
+        #{materialModel,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="demandNo != null">
+        #{demandNo,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryNlockedNum != null">
+        #{inventoryNlockedNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalInventory != null">
+        #{totalInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="makeNo != null">
+        #{makeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="fictitiousInventoryQuantity != null">
+        #{fictitiousInventoryQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="consignmentStock != null">
+        #{consignmentStock,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseOrderNotDelivered != null">
+        #{purchaseOrderNotDelivered,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseOrderNotDeposit != null">
+        #{purchaseOrderNotDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseQuantityNotDeposit != null">
+        #{purchaseQuantityNotDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="nPurchaseNum != null">
+        #{nPurchaseNum,jdbcType=DECIMAL},
+      </if>
+      <if test="miniInventoryNum != null">
+        #{miniInventoryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="maxInventoryNum != null">
+        #{maxInventoryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="procurementCycle != null">
+        #{procurementCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="lockStatus != null">
+        #{lockStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="nlockedNum != null">
+        #{nlockedNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQueryExample" resultType="java.lang.Long">
+    select count(*) from warehouse_bath_num_query
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update warehouse_bath_num_query
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.billNo != null">
+        bill_no = #{record.billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractNo != null">
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null">
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bomNo != null">
+        bom_no = #{record.bomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialType != null">
+        material_type = #{record.materialType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialName != null">
+        material_name = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialModel != null">
+        material_model = #{record.materialModel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.demandNo != null">
+        demand_no = #{record.demandNo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.inventoryNlockedNum != null">
+        inventory_nlocked_num = #{record.inventoryNlockedNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalInventory != null">
+        total_inventory = #{record.totalInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="record.makeNo != null">
+        make_no = #{record.makeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fictitiousInventoryQuantity != null">
+        fictitious_inventory_quantity = #{record.fictitiousInventoryQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.consignmentStock != null">
+        consignment_stock = #{record.consignmentStock,jdbcType=DECIMAL},
+      </if>
+      <if test="record.purchaseOrderNotDelivered != null">
+        purchase_order_not_delivered = #{record.purchaseOrderNotDelivered,jdbcType=DECIMAL},
+      </if>
+      <if test="record.purchaseOrderNotDeposit != null">
+        purchase_order_not_deposit = #{record.purchaseOrderNotDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.purchaseQuantityNotDeposit != null">
+        purchase_quantity_not_deposit = #{record.purchaseQuantityNotDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nPurchaseNum != null">
+        n_purchase_num = #{record.nPurchaseNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.miniInventoryNum != null">
+        mini_inventory_num = #{record.miniInventoryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxInventoryNum != null">
+        max_inventory_num = #{record.maxInventoryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.procurementCycle != null">
+        procurement_cycle = #{record.procurementCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lockStatus != null">
+        lock_status = #{record.lockStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.nlockedNum != null">
+        nlocked_num = #{record.nlockedNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update warehouse_bath_num_query
+    set id = #{record.id,jdbcType=INTEGER},
+      bill_no = #{record.billNo,jdbcType=VARCHAR},
+      contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      bom_no = #{record.bomNo,jdbcType=VARCHAR},
+      material_type = #{record.materialType,jdbcType=VARCHAR},
+      material_name = #{record.materialName,jdbcType=VARCHAR},
+      material_model = #{record.materialModel,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      demand_no = #{record.demandNo,jdbcType=DECIMAL},
+      inventory_nlocked_num = #{record.inventoryNlockedNum,jdbcType=INTEGER},
+      total_inventory = #{record.totalInventory,jdbcType=DECIMAL},
+      make_no = #{record.makeNo,jdbcType=DECIMAL},
+      fictitious_inventory_quantity = #{record.fictitiousInventoryQuantity,jdbcType=DECIMAL},
+      consignment_stock = #{record.consignmentStock,jdbcType=DECIMAL},
+      purchase_order_not_delivered = #{record.purchaseOrderNotDelivered,jdbcType=DECIMAL},
+      purchase_order_not_deposit = #{record.purchaseOrderNotDeposit,jdbcType=DECIMAL},
+      purchase_quantity_not_deposit = #{record.purchaseQuantityNotDeposit,jdbcType=DECIMAL},
+      n_purchase_num = #{record.nPurchaseNum,jdbcType=DECIMAL},
+      mini_inventory_num = #{record.miniInventoryNum,jdbcType=DECIMAL},
+      max_inventory_num = #{record.maxInventoryNum,jdbcType=DECIMAL},
+      procurement_cycle = #{record.procurementCycle,jdbcType=VARCHAR},
+      lock_status = #{record.lockStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater_id = #{record.createrId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      nlocked_num = #{record.nlockedNum,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQuery">
+    update warehouse_bath_num_query
+    <set>
+      <if test="billNo != null">
+        bill_no = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null">
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bomNo != null">
+        bom_no = #{bomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialType != null">
+        material_type = #{materialType,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="materialModel != null">
+        material_model = #{materialModel,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="demandNo != null">
+        demand_no = #{demandNo,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryNlockedNum != null">
+        inventory_nlocked_num = #{inventoryNlockedNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalInventory != null">
+        total_inventory = #{totalInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="makeNo != null">
+        make_no = #{makeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="fictitiousInventoryQuantity != null">
+        fictitious_inventory_quantity = #{fictitiousInventoryQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="consignmentStock != null">
+        consignment_stock = #{consignmentStock,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseOrderNotDelivered != null">
+        purchase_order_not_delivered = #{purchaseOrderNotDelivered,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseOrderNotDeposit != null">
+        purchase_order_not_deposit = #{purchaseOrderNotDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseQuantityNotDeposit != null">
+        purchase_quantity_not_deposit = #{purchaseQuantityNotDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="nPurchaseNum != null">
+        n_purchase_num = #{nPurchaseNum,jdbcType=DECIMAL},
+      </if>
+      <if test="miniInventoryNum != null">
+        mini_inventory_num = #{miniInventoryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="maxInventoryNum != null">
+        max_inventory_num = #{maxInventoryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="procurementCycle != null">
+        procurement_cycle = #{procurementCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="lockStatus != null">
+        lock_status = #{lockStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="nlockedNum != null">
+        nlocked_num = #{nlockedNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQuery">
+    update warehouse_bath_num_query
+    set bill_no = #{billNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      bom_no = #{bomNo,jdbcType=VARCHAR},
+      material_type = #{materialType,jdbcType=VARCHAR},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      material_model = #{materialModel,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      demand_no = #{demandNo,jdbcType=DECIMAL},
+      inventory_nlocked_num = #{inventoryNlockedNum,jdbcType=INTEGER},
+      total_inventory = #{totalInventory,jdbcType=DECIMAL},
+      make_no = #{makeNo,jdbcType=DECIMAL},
+      fictitious_inventory_quantity = #{fictitiousInventoryQuantity,jdbcType=DECIMAL},
+      consignment_stock = #{consignmentStock,jdbcType=DECIMAL},
+      purchase_order_not_delivered = #{purchaseOrderNotDelivered,jdbcType=DECIMAL},
+      purchase_order_not_deposit = #{purchaseOrderNotDeposit,jdbcType=DECIMAL},
+      purchase_quantity_not_deposit = #{purchaseQuantityNotDeposit,jdbcType=DECIMAL},
+      n_purchase_num = #{nPurchaseNum,jdbcType=DECIMAL},
+      mini_inventory_num = #{miniInventoryNum,jdbcType=DECIMAL},
+      max_inventory_num = #{maxInventoryNum,jdbcType=DECIMAL},
+      procurement_cycle = #{procurementCycle,jdbcType=VARCHAR},
+      lock_status = #{lockStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      nlocked_num = #{nlockedNum,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

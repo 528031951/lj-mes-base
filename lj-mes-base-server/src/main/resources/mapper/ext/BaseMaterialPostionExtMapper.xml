@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseMaterialPostionExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.BaseMaterialPostion">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="material_id" jdbcType="INTEGER" property="materialId"/>
+        <result column="postion_id" jdbcType="INTEGER" property="postionId"/>
+    </resultMap>
+    <resultMap id="BaseVoResultMap" type="com.bpm.lj.mes.base.server.vo.BaseMaterialPostionVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="cInvCode" jdbcType="VARCHAR" property="cInvCode"/>
+        <result column="cInvName" jdbcType="VARCHAR" property="cInvName"/>
+        <result column="cPosCode" jdbcType="VARCHAR" property="cPosCode"/>
+        <result column="cPosName" jdbcType="VARCHAR" property="cPosName"/>
+        <result column="material_id" jdbcType="INTEGER" property="materialId"/>
+        <result column="postion_id" jdbcType="INTEGER" property="postionId"/>
+    </resultMap>
+    <select id="pageList" parameterType="com.bpm.lj.mes.base.server.vo.BaseMaterialPostionVo"
+            resultMap="BaseVoResultMap">
+        select p.name as cPosName,p.code as cPosCode ,i.cInvName,i.cInvCode,bmp.id ,bmp.postion_id,bmp.material_id from
+        base_material_postion bmp
+        join base_warehouse p on p.id = bmp.postion_id
+        join inventory i on i.AutoId = bmp.material_id
+
+        where 1=1
+        <if test="cInvName != null">
+            and i.cInvName like concat('%',#{cInvName},'%')
+        </if>
+    </select>
+    <select id="material" resultMap="BaseVoResultMap">
+select i.cInvName,i.cInvCode,i.AutoId as id from   inventory i
+ limit 1000
+   </select>
+    <select id="postionList" resultMap="BaseVoResultMap">
+ select p.name as cPosName,p.code as cPosCode ,p.id   from   base_warehouse p
+   </select>
+    <select id="warehouseIdByCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+ select id from base_warehouse where code = #{code}
+   </select>
+    <select id="inventoryIdByCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+  select AutoId from inventory where cInvCode = #{code}
+
+   </select>
+</mapper>

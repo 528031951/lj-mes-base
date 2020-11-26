@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseInventoryAttributesExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.BaseInventoryAttributes">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="p_id" jdbcType="INTEGER" property="pId"/>
+        <result column="library_age" jdbcType="INTEGER" property="libraryAge"/>
+        <result column="mini_stock" jdbcType="INTEGER" property="miniStock"/>
+        <result column="requisition_day" jdbcType="INTEGER" property="requisitionDay"/>
+        <result column="max_stock" jdbcType="INTEGER" property="maxStock"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="updater_id" jdbcType="INTEGER" property="updaterId"/>
+    </resultMap>
+    <resultMap id="VoResultMap" type="com.bpm.lj.mes.base.server.vo.BaseInventoryAttributesVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="p_id" jdbcType="INTEGER" property="pId"/>
+        <result column="library_age" jdbcType="INTEGER" property="libraryAge"/>
+        <result column="mini_stock" jdbcType="INTEGER" property="miniStock"/>
+        <result column="max_stock" jdbcType="INTEGER" property="maxStock"/>
+        <result column="requisition_day" jdbcType="INTEGER" property="requisitionDay"/>
+        <result column="cInvCode" jdbcType="VARCHAR" property="cInvCode"/>
+        <result column="cInvAddCode" jdbcType="VARCHAR" property="cIInvAddCode"/>
+        <result column="cInvName" jdbcType="VARCHAR" property="cIInvName"/>
+        <result column="cInvStd" jdbcType="VARCHAR" property="cInvStd"/>
+        <result column="cInvCCode" jdbcType="VARCHAR" property="cInvCCode"/>
+        <result column="cInvCName" jdbcType="VARCHAR" property="cInvCName"/>
+    </resultMap>
+    <select id="selectPageList" parameterType="com.bpm.lj.mes.base.server.dto.BaseInventoryAttributesQueryDTO"
+            resultMap="VoResultMap">
+        select
+        bi.cInvCode,
+        bi.cInvAddCode,
+        bi.cInvName,
+        bi.cInvStd,
+        bi.cInvCCode,
+        bi.cInvCName ,
+        bia.library_age,
+        bia.p_id,
+        bia.mini_stock,
+        bia.max_stock,
+        bia.id,
+        bia.requisition_day
+        from base_inventory_attributes bia
+        INNER join inventory bi
+        on bia.p_id = bi.AutoId
+        where 1= 1
+        <if test="cInvName !=null">
+            and bi.cInvName like concat('%',#{cInvName},'%')
+        </if>
+        <if test="cInvCName !=null">
+            and bi.cInvCName = #{cInvCName}
+        </if>
+    </select>
+    <select id="materialList" parameterType="com.bpm.lj.mes.base.server.dto.BaseInventoryAttributesQueryDTO"
+            resultMap="VoResultMap">
+        select AutoId as id,cInvCode,cInvName from inventory where 1=1
+        <if test="cInvCName != null">
+            and cInvCName = #{cInvCName}
+        </if>
+
+    </select>
+    <select id="materialType" parameterType="com.bpm.lj.mes.base.server.dto.BaseInventoryAttributesQueryDTO"
+            resultMap="VoResultMap">
+     select   DISTINCT cInvCCode,cInvCName from  inventory
+   </select>
+    <select id="archivesList" parameterType="com.bpm.lj.mes.base.server.vo.BaseInventoryArchivesVo"
+            resultType="com.bpm.lj.mes.base.server.vo.BaseInventoryArchivesVo">
+        SELECT
+        t.autoid AS id,
+        t.cInvCode,
+        t.cInvAddCode,
+        t.cInvName,
+        t.cInvStd,
+        t.cInvCCode,
+        t.cInvCName,
+        t.cComUnitCode,
+        t.cComUnitName,
+        b.Free1,
+        t.cInvAddCode as drawingNo
+        FROM
+        inventory t
+        LEFT JOIN bas_part b ON b.cInvCode = t.cInvCode
+        WHERE
+        t.bFree1 = 1
+        <if test="cInvCName != null">
+        and t.cInvCName = #{cInvCName}
+        </if>
+        <if test="cInvCode != null">
+        and t.cInvCode=#{cInvCode}
+        </if>
+        <if test="free1 != null">
+        and b.Free1 like concat('%',#{free1},'%')</if>
+        <if test="cInvAddCode != null">
+        and t.cInvAddCode like concat('%',#{cInvAddCode},'%')
+        </if>
+        order by t.autoid
+    </select>
+
+    <select id="selectAllByMateria" resultType="com.bpm.lj.mes.base.server.vo.InventoryVo">
+        SELECT
+            AutoId as autoId,
+            cInvCode as cinvCode
+        FROM
+            inventory
+        WHERE
+            cInvCode IN
+            <foreach collection="list " item="item" open="(" close=")" separator="," index="index">
+            #{item.cinvCode}
+    </foreach>
+    </select>
+
+    <select id="selectInventoryAttributes" resultType="com.bpm.lj.mes.base.server.domain.BaseInventoryAttributes">
+        SELECT
+            id,
+            p_id as pId,
+            library_age as libraryAge,
+            mini_stock as miniStock,
+            max_stock as maxStock
+        FROM
+            base_inventory_attributes
+        WHERE
+            p_id IN
+            <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+                #{item.autoId}
+            </foreach>
+    </select>
+
+    <insert id="addInventoryAttributes" >
+        insert into
+        base_inventory_attributes
+        (p_id,
+        library_age,
+        mini_stock,
+        max_stock,
+        requisition_day
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.pId},#{item.libraryAge},#{item.miniStock},#{item.maxStock},#{item.requisitionDay})
+        </foreach>
+    </insert>
+
+    <select id="selectListInventoryAttributes" resultType="com.bpm.lj.mes.base.server.vo.BaseInventoryAttributesExcelVo">
+    SELECT
+        b.cInvCode as cinvCode,
+        b.cInvName as cinvName,
+        b.cInvAddCode as cinvAddCode,
+        b.cInvStd as cinvStd,
+        b.cInvCCode as cinvcCode,
+        a.library_age as libraryAge,
+        a.max_stock as maxStock,
+        a.mini_stock as miniStock,
+        a.requisition_day as requisitionDay
+    FROM
+        base_inventory_attributes a
+        INNER JOIN inventory b ON a.p_id = b.AutoId
+    </select>
+</mapper>

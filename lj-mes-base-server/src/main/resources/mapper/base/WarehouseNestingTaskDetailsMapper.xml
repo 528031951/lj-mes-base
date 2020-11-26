@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.WarehouseNestingTaskDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_code" jdbcType="VARCHAR" property="taskCode" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="material_code" jdbcType="VARCHAR" property="materialCode" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="specs_type" jdbcType="VARCHAR" property="specsType" />
+    <result column="reality_location" jdbcType="VARCHAR" property="realityLocation" />
+    <result column="receive_status" jdbcType="INTEGER" property="receiveStatus" />
+    <result column="isIt_urgent" jdbcType="INTEGER" property="isitUrgent" />
+    <result column="urge_inspection" jdbcType="INTEGER" property="urgeInspection" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="push_location" jdbcType="VARCHAR" property="pushLocation" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="delivery_order_no" jdbcType="VARCHAR" property="deliveryOrderNo" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="number" jdbcType="DECIMAL" property="number" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, task_code, warehouse_code, material_code, material_name, specs_type, reality_location, 
+    receive_status, isIt_urgent, urge_inspection, remarks, push_location, create_time, 
+    creater_id, update_time, updater_id, delivery_order_no, task_id, `number`
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from warehouse_nesting_task_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_nesting_task_details
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_nesting_task_details
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetailsExample">
+    delete from warehouse_nesting_task_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetails">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_nesting_task_details (task_code, warehouse_code, material_code, 
+      material_name, specs_type, reality_location, 
+      receive_status, isIt_urgent, urge_inspection, 
+      remarks, push_location, create_time, 
+      creater_id, update_time, updater_id, 
+      delivery_order_no, task_id, `number`
+      )
+    values (#{taskCode,jdbcType=VARCHAR}, #{warehouseCode,jdbcType=VARCHAR}, #{materialCode,jdbcType=VARCHAR}, 
+      #{materialName,jdbcType=VARCHAR}, #{specsType,jdbcType=VARCHAR}, #{realityLocation,jdbcType=VARCHAR}, 
+      #{receiveStatus,jdbcType=INTEGER}, #{isitUrgent,jdbcType=INTEGER}, #{urgeInspection,jdbcType=INTEGER}, 
+      #{remarks,jdbcType=VARCHAR}, #{pushLocation,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createrId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=INTEGER}, 
+      #{deliveryOrderNo,jdbcType=VARCHAR}, #{taskId,jdbcType=INTEGER}, #{number,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetails">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_nesting_task_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskCode != null">
+        task_code,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="materialCode != null">
+        material_code,
+      </if>
+      <if test="materialName != null">
+        material_name,
+      </if>
+      <if test="specsType != null">
+        specs_type,
+      </if>
+      <if test="realityLocation != null">
+        reality_location,
+      </if>
+      <if test="receiveStatus != null">
+        receive_status,
+      </if>
+      <if test="isitUrgent != null">
+        isIt_urgent,
+      </if>
+      <if test="urgeInspection != null">
+        urge_inspection,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="pushLocation != null">
+        push_location,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="deliveryOrderNo != null">
+        delivery_order_no,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskCode != null">
+        #{taskCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null">
+        #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="specsType != null">
+        #{specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="realityLocation != null">
+        #{realityLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStatus != null">
+        #{receiveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isitUrgent != null">
+        #{isitUrgent,jdbcType=INTEGER},
+      </if>
+      <if test="urgeInspection != null">
+        #{urgeInspection,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="pushLocation != null">
+        #{pushLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryOrderNo != null">
+        #{deliveryOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetailsExample" resultType="java.lang.Long">
+    select count(*) from warehouse_nesting_task_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update warehouse_nesting_task_details
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.taskCode != null">
+        task_code = #{record.taskCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseCode != null">
+        warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialCode != null">
+        material_code = #{record.materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialName != null">
+        material_name = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specsType != null">
+        specs_type = #{record.specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realityLocation != null">
+        reality_location = #{record.realityLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveStatus != null">
+        receive_status = #{record.receiveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.isitUrgent != null">
+        isIt_urgent = #{record.isitUrgent,jdbcType=INTEGER},
+      </if>
+      <if test="record.urgeInspection != null">
+        urge_inspection = #{record.urgeInspection,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pushLocation != null">
+        push_location = #{record.pushLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryOrderNo != null">
+        delivery_order_no = #{record.deliveryOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.number != null">
+        `number` = #{record.number,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update warehouse_nesting_task_details
+    set id = #{record.id,jdbcType=INTEGER},
+      task_code = #{record.taskCode,jdbcType=VARCHAR},
+      warehouse_code = #{record.warehouseCode,jdbcType=VARCHAR},
+      material_code = #{record.materialCode,jdbcType=VARCHAR},
+      material_name = #{record.materialName,jdbcType=VARCHAR},
+      specs_type = #{record.specsType,jdbcType=VARCHAR},
+      reality_location = #{record.realityLocation,jdbcType=VARCHAR},
+      receive_status = #{record.receiveStatus,jdbcType=INTEGER},
+      isIt_urgent = #{record.isitUrgent,jdbcType=INTEGER},
+      urge_inspection = #{record.urgeInspection,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      push_location = #{record.pushLocation,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater_id = #{record.createrId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      delivery_order_no = #{record.deliveryOrderNo,jdbcType=VARCHAR},
+      task_id = #{record.taskId,jdbcType=INTEGER},
+      `number` = #{record.number,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetails">
+    update warehouse_nesting_task_details
+    <set>
+      <if test="taskCode != null">
+        task_code = #{taskCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null">
+        material_code = #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="specsType != null">
+        specs_type = #{specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="realityLocation != null">
+        reality_location = #{realityLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStatus != null">
+        receive_status = #{receiveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isitUrgent != null">
+        isIt_urgent = #{isitUrgent,jdbcType=INTEGER},
+      </if>
+      <if test="urgeInspection != null">
+        urge_inspection = #{urgeInspection,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="pushLocation != null">
+        push_location = #{pushLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryOrderNo != null">
+        delivery_order_no = #{deliveryOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetails">
+    update warehouse_nesting_task_details
+    set task_code = #{taskCode,jdbcType=VARCHAR},
+      warehouse_code = #{warehouseCode,jdbcType=VARCHAR},
+      material_code = #{materialCode,jdbcType=VARCHAR},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      specs_type = #{specsType,jdbcType=VARCHAR},
+      reality_location = #{realityLocation,jdbcType=VARCHAR},
+      receive_status = #{receiveStatus,jdbcType=INTEGER},
+      isIt_urgent = #{isitUrgent,jdbcType=INTEGER},
+      urge_inspection = #{urgeInspection,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      push_location = #{pushLocation,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      delivery_order_no = #{deliveryOrderNo,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=INTEGER},
+      `number` = #{number,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

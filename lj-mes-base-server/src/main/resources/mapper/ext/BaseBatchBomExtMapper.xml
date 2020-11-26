@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseBatchBomExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.BaseBatchBom">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="erp_batch_code" jdbcType="VARCHAR" property="erpBatchCode"/>
+        <result column="bom_id" jdbcType="VARCHAR" property="bomId"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="customize1" jdbcType="VARCHAR" property="customize1"/>
+        <result column="customize2" jdbcType="VARCHAR" property="customize2"/>
+        <result column="customize3" jdbcType="VARCHAR" property="customize3"/>
+        <result column="customize4" jdbcType="VARCHAR" property="customize4"/>
+        <result column="customize5" jdbcType="INTEGER" property="customize5"/>
+        <result column="customize6" jdbcType="INTEGER" property="customize6"/>
+        <result column="customize7" jdbcType="INTEGER" property="customize7"/>
+        <result column="customize8" jdbcType="INTEGER" property="customize8"/>
+    </resultMap>
+    <resultMap id="BaseVoResultMap" type="com.bpm.lj.mes.base.server.vo.BaseBatchBomVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="erp_batch_code" jdbcType="VARCHAR" property="erpBatchCode"/>
+        <result column="cInvCode" jdbcType="VARCHAR" property="cInvCode"/>
+        <result column="cCode" jdbcType="VARCHAR" property="cCode"/>
+        <result column="cBusType" jdbcType="VARCHAR" property="cBusType"/>
+        <result column="cSoCode" jdbcType="VARCHAR" property="cSoCode"/>
+        <result column="cInvCodeBom" jdbcType="VARCHAR" property="cInvCodeBom"/>
+        <result column="bomId" jdbcType="VARCHAR" property="bomId"/>
+        <result column="dDate" jdbcType="TIMESTAMP" property="dDate"/>
+    </resultMap>
+    <resultMap id="BomResultMap" type="com.bpm.lj.mes.base.server.domain.BomOpcomponent">
+        <id column="AutoId" jdbcType="INTEGER" property="autoid"/>
+        <result column="cAcc_Id" jdbcType="VARCHAR" property="caccId"/>
+        <result column="OpcomponentId" jdbcType="INTEGER" property="opcomponentid"/>
+        <result column="cInvCode" jdbcType="VARCHAR" property="cinvcode"/>
+        <result column="PartId" jdbcType="INTEGER" property="partid"/>
+        <result column="BomId" jdbcType="INTEGER" property="bomid"/>
+        <result column="iRowNo" jdbcType="INTEGER" property="irowno"/>
+        <result column="cBomGrade" jdbcType="VARCHAR" property="cbomgrade"/>
+        <result column="cInvCode_Sub" jdbcType="VARCHAR" property="cinvcodeSub"/>
+        <result column="PartId_Sub" jdbcType="INTEGER" property="partidSub"/>
+        <result column="cBomAttr" jdbcType="VARCHAR" property="cbomattr"/>
+        <result column="cSupplyType" jdbcType="VARCHAR" property="csupplytype"/>
+        <result column="BaseQtyN" jdbcType="DECIMAL" property="baseqtyn"/>
+        <result column="BaseQtyD" jdbcType="DECIMAL" property="baseqtyd"/>
+        <result column="CompScrap" jdbcType="DECIMAL" property="compscrap"/>
+        <result column="iBomQty" jdbcType="DECIMAL" property="ibomqty"/>
+        <result column="dCreateDate" jdbcType="TIMESTAMP" property="dcreatedate"/>
+        <result column="cFree1" jdbcType="VARCHAR" property="cfree1"/>
+        <result column="cFree2" jdbcType="VARCHAR" property="cfree2"/>
+    </resultMap>
+    <select id="pageList" parameterType="com.bpm.lj.mes.base.server.dto.BaseBatchBomDTO" resultMap="BaseVoResultMap">
+        select DISTINCT bp.cInvCode as cInvCodeBom ,pp.cCode,pp.dDate,pp.cBusType,b.erp_batch_code ,bp.PartId as bomId
+        ,i.cInvCode,ps.cSoCode,b.id
+        from base_batch_bom b
+        left join bom_parent bp on bp.AutoId = b.bom_id
+        left join po_pomain pp on pp.id = b.order_id
+        left join inventory i on i.AutoId = bp.BomId
+        left join po_podetails ps on ps.id = pp.id
+        where 1=1
+        <if test="erpBatchCode != null">and b.erp_batch_code = #{erpBatchCode}</if>
+        <if test="cInvCode != null">and i.cInvCode = #{cInvCode}</if>
+    </select>
+    <select id="bomList" resultType="com.bpm.lj.mes.base.server.vo.BaseMaterialVo"
+            parameterType="com.bpm.lj.mes.base.server.vo.BaseBatchBomVo">
+        select AutoId as id ,cInvCode from bom_parent where 1=1
+        <if test="cInvCode != null">
+            and cInvCode like concat('%',#{cInvCode},'%')
+        </if>
+    </select>
+    <select id="chrildBomList" parameterType="java.lang.Integer" resultMap="BomResultMap">
+select  AutoId, cAcc_Id, OpcomponentId, cInvCode, PartId, BomId, iRowNo, cBomGrade, cInvCode_Sub,
+    PartId_Sub, cBomAttr, cSupplyType, BaseQtyN, BaseQtyD, CompScrap, iBomQty, dCreateDate,
+    cFree1, cFree2 from bom_opcomponent where PartId = #{bomId}
+    </select>
+    <select id="componentCodeList" resultType="java.lang.String" parameterType="java.lang.String">
+        select distinct cInvCode_Sub from bom_opcomponent where 1=1
+        <if test="cCode != null">
+            and cInvCode_Sub like concat('%',#{cCode},'%')
+        </if>
+
+    </select>
+    <select id="componentList" resultType="java.lang.String"
+            parameterType="com.bpm.lj.mes.base.server.vo.BaseBatchBomVo">
+        select distinct cBomAttr from bom_opcomponent where 1=1
+        <if test="cCode != null">
+            and cBomAttr like concat('%',#{cCode},'%')
+        </if>
+
+    </select>
+</mapper>

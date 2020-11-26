@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.WarehouseProtectionExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.WarehouseProtectionDTO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="protection_name" jdbcType="VARCHAR" property="protectionName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="inventory" jdbcType="DECIMAL" property="inventory" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="available_inventory" jdbcType="DECIMAL" property="availableInventory" />
+    <result column="storage_location" jdbcType="VARCHAR" property="storageLocation" />
+    <result column="validity" jdbcType="INTEGER" property="validity" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+  </resultMap>
+  <resultMap id="BaseVoResultMap" type="com.bpm.lj.mes.base.server.vo.WarehouseProtectionVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="protection_name" jdbcType="VARCHAR" property="protectionName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="team_name" jdbcType="VARCHAR" property="teamName" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="inventory" jdbcType="DECIMAL" property="inventory" />
+    <result column="apply_num" jdbcType="DECIMAL" property="applyNum" />
+    <result column="grand_num" jdbcType="DECIMAL" property="grandNum" />
+    <result column="in_use_num" jdbcType="DECIMAL" property="inUseNum" />
+    <result column="use" jdbcType="VARCHAR" property="use" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="available_inventory" jdbcType="DECIMAL" property="availableInventory" />
+    <result column="storage_location" jdbcType="VARCHAR" property="storageLocation" />
+    <result column="validity" jdbcType="INTEGER" property="validity" />
+    <result column="grand_date" jdbcType="TIMESTAMP" property="grandDate" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+  </resultMap>
+   <select id="selectPageList" resultMap="BaseVoResultMap"
+           parameterType="com.bpm.lj.mes.base.server.dto.WarehouseProtectionDTO" >
+       SELECT wp.id,
+	wp.protection_name,
+	wp.type,
+	wp.version,
+	wp.supplier_name,
+	wp.unit,
+	wp.inventory,
+	wp.available_inventory,
+	wp.storage_location,
+	wp.validity,
+ wpg.apply_num,wpg.grand_num,wpg.grand_date,wpg.in_use_num,wpg.use ,
+	bt.crew_name  AS team_name, wpg.dept_id
+FROM
+	warehouse_protection wp
+	left join warehouse_protection_group wpg  on wpg.protection_id  =   wp.id
+	left join  base_team  bt on wpg.dept_id =  bt.id
+where 1=1
+   
+   </select>
+</mapper>

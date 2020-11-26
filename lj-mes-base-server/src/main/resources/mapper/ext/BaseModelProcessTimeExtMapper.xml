@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseModelProcessTimeExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.BaseModelProcessTimeDTO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="worhcenter_code" jdbcType="VARCHAR" property="worhcenterCode"/>
+        <result column="worhcenter_name" jdbcType="VARCHAR" property="worhcenterName"/>
+        <result column="process_code" jdbcType="VARCHAR" property="processCode"/>
+        <result column="process_name" jdbcType="VARCHAR" property="processName"/>
+        <result column="base_operation_id" jdbcType="INTEGER" property="baseOperationId"/>
+        <result column="worhcenter_id" jdbcType="INTEGER" property="worhcenterId"/>
+        <result column="std_time" jdbcType="DOUBLE" property="stdTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_id" jdbcType="INTEGER" property="createId"/>
+        <result column="update_id" jdbcType="INTEGER" property="updateId"/>
+        <result column="machine_code" jdbcType="VARCHAR" property="machineCode"/>
+        <result column="series" jdbcType="VARCHAR" property="series"/>
+        <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
+    <resultMap id="ProcessVoResultMap" type="com.bpm.lj.mes.base.server.vo.ProcessVo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="process_code" jdbcType="VARCHAR" property="processCode"/>
+        <result column="process_name" jdbcType="VARCHAR" property="processName"/>
+    </resultMap>
+    <select id="queryPageList" parameterType="com.bpm.lj.mes.base.server.dto.BaseModelProcessTimeDTO"
+            resultMap="BaseResultMap">
+        SELECT
+        b.id
+        ,b.worhcenter_code
+        ,b.worhcenter_name
+        ,b.process_code
+        ,b.process_name
+        ,b.base_operation_id
+        ,b.std_time
+        ,b.create_time
+        ,b.update_time
+        ,b.create_id
+        ,b.update_id
+        ,b.machine_code
+        ,b.series
+        ,b.status
+        ,b.worhcenter_id
+        ,b.team_id
+        ,t.team_name
+        FROM
+        base_model_process_time b left join base_team t on t.id = b.team_id
+        where 1=1
+        <if test="worhcenterId != null">
+            and b.worhcenter_id = #{worhcenterId}
+        </if>
+        <if test="baseOperationId != null">
+            and b.base_Operation_Id = #{baseOperationId}
+        </if>
+        <if test="teamId != null">
+            and b.team_id = #{teamId}
+        </if>
+    </select>
+    <select id="queryProcess" resultMap="ProcessVoResultMap" parameterType="java.lang.Integer">
+    select cOpCode as process_code ,cOpName as process_name ,OperationId as id  from sfc_operation where WcId = #{id}
+  </select>
+    <select id="queryProcessName" resultMap="ProcessVoResultMap" parameterType="java.lang.Integer">
+    select cOpCode as process_code ,cOpName as process_name ,OperationId as id  from sfc_operation where OperationId = #{id}
+  </select>
+    <select id="queryDepartment" resultType="com.bpm.lj.mes.base.server.vo.DeptVo" parameterType="java.lang.Integer">
+			 select b.code ,b.name ,c.location_id ,b.id from base_team_children c left join base_location  b on b.id = c.location_id where c.team_id  = #{teamId}
+  </select>
+    <select id="queryWorkId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select  id  from base_location where code = #{code}
+  </select>
+    <select id="queryProcessId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select  id  from base_standara_process where process_code = #{code}
+  </select>
+    <select id="queryPageDetails" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from base_model_process_time
+        where 1=1 and machine_code = #{machineCode}
+    </select>
+    <select id="teamList" parameterType="java.lang.String" resultType="com.bpm.lj.mes.base.server.vo.DeptVo">
+        select team_name as name ,id,team_code as code from base_team
+    </select>
+</mapper>

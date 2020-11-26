@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.SupplierPurchaseDeliveryOrderDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="material_code" jdbcType="VARCHAR" property="materialCode" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="specs_type" jdbcType="VARCHAR" property="specsType" />
+    <result column="cAcc_Id" jdbcType="INTEGER" property="caccId" />
+    <result column="order_number" jdbcType="DECIMAL" property="orderNumber" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="purchase_delivery_order_id" jdbcType="INTEGER" property="purchaseDeliveryOrderId" />
+    <result column="quantity_num" jdbcType="DECIMAL" property="quantityNum" />
+    <result column="current_status" jdbcType="INTEGER" property="currentStatus" />
+    <result column="urgent" jdbcType="INTEGER" property="urgent" />
+    <result column="drawe_no" jdbcType="VARCHAR" property="draweNo" />
+    <result column="qr_code" jdbcType="VARCHAR" property="qrCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="material_batch_code" jdbcType="VARCHAR" property="materialBatchCode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="special_num" jdbcType="INTEGER" property="specialNum" />
+    <result column="erp_batch_code" jdbcType="VARCHAR" property="erpBatchCode" />
+    <result column="frozen_status" jdbcType="INTEGER" property="frozenStatus" />
+    <result column="cCode" jdbcType="VARCHAR" property="ccode" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="version_no" jdbcType="VARCHAR" property="versionNo" />
+    <result column="cInvAddCode" jdbcType="VARCHAR" property="cinvaddcode" />
+    <result column="iPodId" jdbcType="INTEGER" property="ipodid" />
+    <result column="iRowNo" jdbcType="INTEGER" property="irowno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, material_code, material_name, specs_type, cAcc_Id, order_number, order_no, purchase_delivery_order_id, 
+    quantity_num, current_status, urgent, drawe_no, qr_code, create_time, creater_id, 
+    update_time, updater_id, material_batch_code, remark, special_num, erp_batch_code, 
+    frozen_status, cCode, unit, version_no, cInvAddCode, iPodId, iRowNo
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from supplier_purchase_delivery_order_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from supplier_purchase_delivery_order_details
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from supplier_purchase_delivery_order_details
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetailsExample">
+    delete from supplier_purchase_delivery_order_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetails">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into supplier_purchase_delivery_order_details (material_code, material_name, specs_type, 
+      cAcc_Id, order_number, order_no, 
+      purchase_delivery_order_id, quantity_num, current_status, 
+      urgent, drawe_no, qr_code, 
+      create_time, creater_id, update_time, 
+      updater_id, material_batch_code, remark, 
+      special_num, erp_batch_code, frozen_status, 
+      cCode, unit, version_no, 
+      cInvAddCode, iPodId, iRowNo
+      )
+    values (#{materialCode,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, #{specsType,jdbcType=VARCHAR}, 
+      #{caccId,jdbcType=INTEGER}, #{orderNumber,jdbcType=DECIMAL}, #{orderNo,jdbcType=VARCHAR}, 
+      #{purchaseDeliveryOrderId,jdbcType=INTEGER}, #{quantityNum,jdbcType=DECIMAL}, #{currentStatus,jdbcType=INTEGER}, 
+      #{urgent,jdbcType=INTEGER}, #{draweNo,jdbcType=VARCHAR}, #{qrCode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updaterId,jdbcType=INTEGER}, #{materialBatchCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{specialNum,jdbcType=INTEGER}, #{erpBatchCode,jdbcType=VARCHAR}, #{frozenStatus,jdbcType=INTEGER}, 
+      #{ccode,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{versionNo,jdbcType=VARCHAR}, 
+      #{cinvaddcode,jdbcType=VARCHAR}, #{ipodid,jdbcType=INTEGER}, #{irowno,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetails">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into supplier_purchase_delivery_order_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="materialCode != null">
+        material_code,
+      </if>
+      <if test="materialName != null">
+        material_name,
+      </if>
+      <if test="specsType != null">
+        specs_type,
+      </if>
+      <if test="caccId != null">
+        cAcc_Id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="purchaseDeliveryOrderId != null">
+        purchase_delivery_order_id,
+      </if>
+      <if test="quantityNum != null">
+        quantity_num,
+      </if>
+      <if test="currentStatus != null">
+        current_status,
+      </if>
+      <if test="urgent != null">
+        urgent,
+      </if>
+      <if test="draweNo != null">
+        drawe_no,
+      </if>
+      <if test="qrCode != null">
+        qr_code,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+      <if test="materialBatchCode != null">
+        material_batch_code,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="specialNum != null">
+        special_num,
+      </if>
+      <if test="erpBatchCode != null">
+        erp_batch_code,
+      </if>
+      <if test="frozenStatus != null">
+        frozen_status,
+      </if>
+      <if test="ccode != null">
+        cCode,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="versionNo != null">
+        version_no,
+      </if>
+      <if test="cinvaddcode != null">
+        cInvAddCode,
+      </if>
+      <if test="ipodid != null">
+        iPodId,
+      </if>
+      <if test="irowno != null">
+        iRowNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="materialCode != null">
+        #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="specsType != null">
+        #{specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="caccId != null">
+        #{caccId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDeliveryOrderId != null">
+        #{purchaseDeliveryOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="quantityNum != null">
+        #{quantityNum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentStatus != null">
+        #{currentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="urgent != null">
+        #{urgent,jdbcType=INTEGER},
+      </if>
+      <if test="draweNo != null">
+        #{draweNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCode != null">
+        #{qrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="materialBatchCode != null">
+        #{materialBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="specialNum != null">
+        #{specialNum,jdbcType=INTEGER},
+      </if>
+      <if test="erpBatchCode != null">
+        #{erpBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="frozenStatus != null">
+        #{frozenStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ccode != null">
+        #{ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null">
+        #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvaddcode != null">
+        #{cinvaddcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ipodid != null">
+        #{ipodid,jdbcType=INTEGER},
+      </if>
+      <if test="irowno != null">
+        #{irowno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetailsExample" resultType="java.lang.Long">
+    select count(*) from supplier_purchase_delivery_order_details
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update supplier_purchase_delivery_order_details
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.materialCode != null">
+        material_code = #{record.materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialName != null">
+        material_name = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specsType != null">
+        specs_type = #{record.specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caccId != null">
+        cAcc_Id = #{record.caccId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null">
+        order_number = #{record.orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchaseDeliveryOrderId != null">
+        purchase_delivery_order_id = #{record.purchaseDeliveryOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.quantityNum != null">
+        quantity_num = #{record.quantityNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentStatus != null">
+        current_status = #{record.currentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.urgent != null">
+        urgent = #{record.urgent,jdbcType=INTEGER},
+      </if>
+      <if test="record.draweNo != null">
+        drawe_no = #{record.draweNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qrCode != null">
+        qr_code = #{record.qrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.materialBatchCode != null">
+        material_batch_code = #{record.materialBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialNum != null">
+        special_num = #{record.specialNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.erpBatchCode != null">
+        erp_batch_code = #{record.erpBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.frozenStatus != null">
+        frozen_status = #{record.frozenStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.ccode != null">
+        cCode = #{record.ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.versionNo != null">
+        version_no = #{record.versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvaddcode != null">
+        cInvAddCode = #{record.cinvaddcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ipodid != null">
+        iPodId = #{record.ipodid,jdbcType=INTEGER},
+      </if>
+      <if test="record.irowno != null">
+        iRowNo = #{record.irowno,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update supplier_purchase_delivery_order_details
+    set id = #{record.id,jdbcType=INTEGER},
+      material_code = #{record.materialCode,jdbcType=VARCHAR},
+      material_name = #{record.materialName,jdbcType=VARCHAR},
+      specs_type = #{record.specsType,jdbcType=VARCHAR},
+      cAcc_Id = #{record.caccId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=DECIMAL},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      purchase_delivery_order_id = #{record.purchaseDeliveryOrderId,jdbcType=INTEGER},
+      quantity_num = #{record.quantityNum,jdbcType=DECIMAL},
+      current_status = #{record.currentStatus,jdbcType=INTEGER},
+      urgent = #{record.urgent,jdbcType=INTEGER},
+      drawe_no = #{record.draweNo,jdbcType=VARCHAR},
+      qr_code = #{record.qrCode,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater_id = #{record.createrId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{record.updaterId,jdbcType=INTEGER},
+      material_batch_code = #{record.materialBatchCode,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      special_num = #{record.specialNum,jdbcType=INTEGER},
+      erp_batch_code = #{record.erpBatchCode,jdbcType=VARCHAR},
+      frozen_status = #{record.frozenStatus,jdbcType=INTEGER},
+      cCode = #{record.ccode,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      version_no = #{record.versionNo,jdbcType=VARCHAR},
+      cInvAddCode = #{record.cinvaddcode,jdbcType=VARCHAR},
+      iPodId = #{record.ipodid,jdbcType=INTEGER},
+      iRowNo = #{record.irowno,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetails">
+    update supplier_purchase_delivery_order_details
+    <set>
+      <if test="materialCode != null">
+        material_code = #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="specsType != null">
+        specs_type = #{specsType,jdbcType=VARCHAR},
+      </if>
+      <if test="caccId != null">
+        cAcc_Id = #{caccId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDeliveryOrderId != null">
+        purchase_delivery_order_id = #{purchaseDeliveryOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="quantityNum != null">
+        quantity_num = #{quantityNum,jdbcType=DECIMAL},
+      </if>
+      <if test="currentStatus != null">
+        current_status = #{currentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="urgent != null">
+        urgent = #{urgent,jdbcType=INTEGER},
+      </if>
+      <if test="draweNo != null">
+        drawe_no = #{draweNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCode != null">
+        qr_code = #{qrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+      <if test="materialBatchCode != null">
+        material_batch_code = #{materialBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="specialNum != null">
+        special_num = #{specialNum,jdbcType=INTEGER},
+      </if>
+      <if test="erpBatchCode != null">
+        erp_batch_code = #{erpBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="frozenStatus != null">
+        frozen_status = #{frozenStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ccode != null">
+        cCode = #{ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null">
+        version_no = #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvaddcode != null">
+        cInvAddCode = #{cinvaddcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ipodid != null">
+        iPodId = #{ipodid,jdbcType=INTEGER},
+      </if>
+      <if test="irowno != null">
+        iRowNo = #{irowno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.SupplierPurchaseDeliveryOrderDetails">
+    update supplier_purchase_delivery_order_details
+    set material_code = #{materialCode,jdbcType=VARCHAR},
+      material_name = #{materialName,jdbcType=VARCHAR},
+      specs_type = #{specsType,jdbcType=VARCHAR},
+      cAcc_Id = #{caccId,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=DECIMAL},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      purchase_delivery_order_id = #{purchaseDeliveryOrderId,jdbcType=INTEGER},
+      quantity_num = #{quantityNum,jdbcType=DECIMAL},
+      current_status = #{currentStatus,jdbcType=INTEGER},
+      urgent = #{urgent,jdbcType=INTEGER},
+      drawe_no = #{draweNo,jdbcType=VARCHAR},
+      qr_code = #{qrCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=INTEGER},
+      material_batch_code = #{materialBatchCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      special_num = #{specialNum,jdbcType=INTEGER},
+      erp_batch_code = #{erpBatchCode,jdbcType=VARCHAR},
+      frozen_status = #{frozenStatus,jdbcType=INTEGER},
+      cCode = #{ccode,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      version_no = #{versionNo,jdbcType=VARCHAR},
+      cInvAddCode = #{cinvaddcode,jdbcType=VARCHAR},
+      iPodId = #{ipodid,jdbcType=INTEGER},
+      iRowNo = #{irowno,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

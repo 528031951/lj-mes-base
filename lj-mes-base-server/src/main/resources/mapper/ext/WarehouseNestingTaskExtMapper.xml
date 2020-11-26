@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.WarehouseNestingTaskExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.WarehouseNestingTaskDTO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="task_code" jdbcType="VARCHAR" property="taskCode" />
+    <result column="task_status" jdbcType="INTEGER" property="taskStatus" />
+    <result column="material_status" jdbcType="INTEGER" property="materialStatus" />
+    <result column="production_processes" jdbcType="INTEGER" property="productionProcesses" />
+    <result column="task_launch_date" jdbcType="TIMESTAMP" property="taskLaunchDate" />
+    <result column="expected_completion_date" jdbcType="TIMESTAMP" property="expectedCompletionDate" />
+    <result column="task_completion_date" jdbcType="TIMESTAMP" property="taskCompletionDate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="material_req_person" jdbcType="INTEGER" property="materialReqPerson" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+  </resultMap>
+<select id="pageList" parameterType="com.bpm.lj.mes.base.server.dto.WarehouseNestingTaskDTO" resultMap="BaseResultMap">
+  select  id, batch_no, task_code, task_status, material_status, production_processes, task_launch_date,
+    expected_completion_date, task_completion_date, remarks, material_req_person, create_time,
+    creater_id, update_time, updater_id from warehouse_nesting_task where  1=1
+  <if test="batchNo != null">
+and batch_No = #{batchNo}
+  </if>
+  <if test="productionProcesses != null">
+and production_Processes = #{productionProcesses}
+  </if>
+  <if test="taskStatus != null">
+    and task_status = #{taskStatus}
+  </if>
+</select>
+</mapper>

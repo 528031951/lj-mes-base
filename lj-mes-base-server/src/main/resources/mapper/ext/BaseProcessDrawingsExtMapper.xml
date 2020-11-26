@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseProcessDrawingsExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.BaseProcessDrawingsDTO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="p_id" jdbcType="INTEGER" property="pId"/>
+        <result column="cInvCCode" jdbcType="VARCHAR" property="cinvccode"/>
+        <result column="cInvCName" jdbcType="VARCHAR" property="cinvcname"/>
+        <result column="cInvCode" jdbcType="VARCHAR" property="cinvcode"/>
+        <result column="cIInvAddCode" jdbcType="VARCHAR" property="ciinvaddcode"/>
+        <result column="cIInvName" jdbcType="VARCHAR" property="ciinvname"/>
+        <result column="cInvStd" jdbcType="VARCHAR" property="cinvstd"/>
+        <result column="drawing_no" jdbcType="VARCHAR" property="drawingNo"/>
+        <result column="version_no" jdbcType="VARCHAR" property="versionNo"/>
+        <result column="drawing_path" jdbcType="VARCHAR" property="drawingPath"/>
+        <result column="drawing_type" jdbcType="INTEGER" property="drawingType"/>
+        <result column="is_drawing" jdbcType="INTEGER" property="isDrawing"/>
+        <result column="detailsId" jdbcType="INTEGER" property="detailsId"/>
+        <result column="is_card" jdbcType="INTEGER" property="isCard"/>
+
+    </resultMap>
+    <select id="quueryPageList" resultMap="BaseResultMap"
+            parameterType="com.bpm.lj.mes.base.server.dto.BaseProcessDrawingsDTO">
+        select
+        b.id
+        ,b.cInvCCode
+        ,b.cInvCName
+        ,b.cInvCode
+        ,b.cIInvAddCode
+        ,b.cIInvName
+        ,b.cInvStd
+        ,b.drawing_no
+        ,b.version_no
+        ,b.is_drawing
+        ,b.is_card
+        ,b.create_time
+        ,b.creator_id
+        ,b.update_time
+        ,b.updater_id
+        ,d.drawing_path
+        ,d.drawing_type
+        ,d.id as detailsId
+        from base_process_drawings b left join base_process_drawings_details d on d.pd_id = b.id
+        where 1=1
+        <if test="cinvcname != null">
+            and b.cInvCName like concat('%',#{cinvcname},'%')
+        </if>
+        <if test="ciinvname != null">
+            and b.cIInvName like concat('%',#{ciinvname},'%')
+        </if>
+        <if test="versionNo != null">
+            and b.version_no = #{versionNo}
+        </if>
+        <if test="drawingNo != null">
+            and b.drawing_no = #{drawingNo}
+        </if>
+        <if test="isDrawing != 3 and isDrawing != null">
+            and b.is_drawing = #{isDrawing}
+        </if>
+        <if test="isCard != 3 and isCard != null">
+            and b.is_card = #{isCard}
+        </if>
+    </select>
+    <select id="queryId" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select AutoId from inventory where cInvCode = #{code}
+  </select>
+    <select id="queryRemoval" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from base_process_drawings where cInvCode = #{code}
+    </select>
+    <select id="addInventoryList" resultMap="BaseResultMap"
+            parameterType="com.bpm.lj.mes.base.server.dto.BaseProcessDrawingsDTO">
+        SELECT
+        i.AutoId AS id,
+        i.cInvCode,
+        i.cInvAddCode AS cIInvAddCode,
+        i.cInvName AS cIInvName,
+        i.cInvStd,
+        i.cInvCCode AS cInvCCode,
+        i.cInvCName AS cInvCName ,
+        v.free1 as version_no,v.drawe_no as drawing_no
+        FROM
+        inventory i
+        LEFT JOIN v_base_process_drawings v on i.cInvCode = v.cInvCode
+        where 1=1
+        <if test="cInvCode != null">and i.cInvCode like concat('%',#{cInvCode},'%')</if>
+        <if test="cInvName != null">and i.cInvName like concat('%',#{cInvName},'%')</if>
+    </select>
+</mapper>

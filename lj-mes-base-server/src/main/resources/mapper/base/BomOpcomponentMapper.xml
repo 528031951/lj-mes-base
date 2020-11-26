@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.BomOpcomponentMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.BomOpcomponent">
+    <id column="AutoId" jdbcType="INTEGER" property="autoid" />
+    <result column="cAcc_Id" jdbcType="VARCHAR" property="caccId" />
+    <result column="OpcomponentId" jdbcType="INTEGER" property="opcomponentid" />
+    <result column="cInvCode" jdbcType="VARCHAR" property="cinvcode" />
+    <result column="PartId" jdbcType="INTEGER" property="partid" />
+    <result column="BomId" jdbcType="INTEGER" property="bomid" />
+    <result column="iRowNo" jdbcType="INTEGER" property="irowno" />
+    <result column="cBomGrade" jdbcType="VARCHAR" property="cbomgrade" />
+    <result column="cInvCode_Sub" jdbcType="VARCHAR" property="cinvcodeSub" />
+    <result column="PartId_Sub" jdbcType="INTEGER" property="partidSub" />
+    <result column="cBomAttr" jdbcType="VARCHAR" property="cbomattr" />
+    <result column="cSupplyType" jdbcType="VARCHAR" property="csupplytype" />
+    <result column="BaseQtyN" jdbcType="DECIMAL" property="baseqtyn" />
+    <result column="BaseQtyD" jdbcType="DECIMAL" property="baseqtyd" />
+    <result column="CompScrap" jdbcType="DECIMAL" property="compscrap" />
+    <result column="iBomQty" jdbcType="DECIMAL" property="ibomqty" />
+    <result column="dCreateDate" jdbcType="TIMESTAMP" property="dcreatedate" />
+    <result column="cFree1" jdbcType="VARCHAR" property="cfree1" />
+    <result column="cFree2" jdbcType="VARCHAR" property="cfree2" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    AutoId, cAcc_Id, OpcomponentId, cInvCode, PartId, BomId, iRowNo, cBomGrade, cInvCode_Sub, 
+    PartId_Sub, cBomAttr, cSupplyType, BaseQtyN, BaseQtyD, CompScrap, iBomQty, dCreateDate, 
+    cFree1, cFree2
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from bom_opcomponent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bom_opcomponent
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bom_opcomponent
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponentExample">
+    delete from bom_opcomponent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponent">
+    insert into bom_opcomponent (AutoId, cAcc_Id, OpcomponentId, 
+      cInvCode, PartId, BomId, 
+      iRowNo, cBomGrade, cInvCode_Sub, 
+      PartId_Sub, cBomAttr, cSupplyType, 
+      BaseQtyN, BaseQtyD, CompScrap, 
+      iBomQty, dCreateDate, cFree1, 
+      cFree2)
+    values (#{autoid,jdbcType=INTEGER}, #{caccId,jdbcType=VARCHAR}, #{opcomponentid,jdbcType=INTEGER}, 
+      #{cinvcode,jdbcType=VARCHAR}, #{partid,jdbcType=INTEGER}, #{bomid,jdbcType=INTEGER}, 
+      #{irowno,jdbcType=INTEGER}, #{cbomgrade,jdbcType=VARCHAR}, #{cinvcodeSub,jdbcType=VARCHAR}, 
+      #{partidSub,jdbcType=INTEGER}, #{cbomattr,jdbcType=VARCHAR}, #{csupplytype,jdbcType=VARCHAR}, 
+      #{baseqtyn,jdbcType=DECIMAL}, #{baseqtyd,jdbcType=DECIMAL}, #{compscrap,jdbcType=DECIMAL}, 
+      #{ibomqty,jdbcType=DECIMAL}, #{dcreatedate,jdbcType=TIMESTAMP}, #{cfree1,jdbcType=VARCHAR}, 
+      #{cfree2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponent">
+    insert into bom_opcomponent
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="autoid != null">
+        AutoId,
+      </if>
+      <if test="caccId != null">
+        cAcc_Id,
+      </if>
+      <if test="opcomponentid != null">
+        OpcomponentId,
+      </if>
+      <if test="cinvcode != null">
+        cInvCode,
+      </if>
+      <if test="partid != null">
+        PartId,
+      </if>
+      <if test="bomid != null">
+        BomId,
+      </if>
+      <if test="irowno != null">
+        iRowNo,
+      </if>
+      <if test="cbomgrade != null">
+        cBomGrade,
+      </if>
+      <if test="cinvcodeSub != null">
+        cInvCode_Sub,
+      </if>
+      <if test="partidSub != null">
+        PartId_Sub,
+      </if>
+      <if test="cbomattr != null">
+        cBomAttr,
+      </if>
+      <if test="csupplytype != null">
+        cSupplyType,
+      </if>
+      <if test="baseqtyn != null">
+        BaseQtyN,
+      </if>
+      <if test="baseqtyd != null">
+        BaseQtyD,
+      </if>
+      <if test="compscrap != null">
+        CompScrap,
+      </if>
+      <if test="ibomqty != null">
+        iBomQty,
+      </if>
+      <if test="dcreatedate != null">
+        dCreateDate,
+      </if>
+      <if test="cfree1 != null">
+        cFree1,
+      </if>
+      <if test="cfree2 != null">
+        cFree2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="autoid != null">
+        #{autoid,jdbcType=INTEGER},
+      </if>
+      <if test="caccId != null">
+        #{caccId,jdbcType=VARCHAR},
+      </if>
+      <if test="opcomponentid != null">
+        #{opcomponentid,jdbcType=INTEGER},
+      </if>
+      <if test="cinvcode != null">
+        #{cinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="partid != null">
+        #{partid,jdbcType=INTEGER},
+      </if>
+      <if test="bomid != null">
+        #{bomid,jdbcType=INTEGER},
+      </if>
+      <if test="irowno != null">
+        #{irowno,jdbcType=INTEGER},
+      </if>
+      <if test="cbomgrade != null">
+        #{cbomgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvcodeSub != null">
+        #{cinvcodeSub,jdbcType=VARCHAR},
+      </if>
+      <if test="partidSub != null">
+        #{partidSub,jdbcType=INTEGER},
+      </if>
+      <if test="cbomattr != null">
+        #{cbomattr,jdbcType=VARCHAR},
+      </if>
+      <if test="csupplytype != null">
+        #{csupplytype,jdbcType=VARCHAR},
+      </if>
+      <if test="baseqtyn != null">
+        #{baseqtyn,jdbcType=DECIMAL},
+      </if>
+      <if test="baseqtyd != null">
+        #{baseqtyd,jdbcType=DECIMAL},
+      </if>
+      <if test="compscrap != null">
+        #{compscrap,jdbcType=DECIMAL},
+      </if>
+      <if test="ibomqty != null">
+        #{ibomqty,jdbcType=DECIMAL},
+      </if>
+      <if test="dcreatedate != null">
+        #{dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cfree1 != null">
+        #{cfree1,jdbcType=VARCHAR},
+      </if>
+      <if test="cfree2 != null">
+        #{cfree2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponentExample" resultType="java.lang.Long">
+    select count(*) from bom_opcomponent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bom_opcomponent
+    <set>
+      <if test="record.autoid != null">
+        AutoId = #{record.autoid,jdbcType=INTEGER},
+      </if>
+      <if test="record.caccId != null">
+        cAcc_Id = #{record.caccId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opcomponentid != null">
+        OpcomponentId = #{record.opcomponentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cinvcode != null">
+        cInvCode = #{record.cinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partid != null">
+        PartId = #{record.partid,jdbcType=INTEGER},
+      </if>
+      <if test="record.bomid != null">
+        BomId = #{record.bomid,jdbcType=INTEGER},
+      </if>
+      <if test="record.irowno != null">
+        iRowNo = #{record.irowno,jdbcType=INTEGER},
+      </if>
+      <if test="record.cbomgrade != null">
+        cBomGrade = #{record.cbomgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvcodeSub != null">
+        cInvCode_Sub = #{record.cinvcodeSub,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partidSub != null">
+        PartId_Sub = #{record.partidSub,jdbcType=INTEGER},
+      </if>
+      <if test="record.cbomattr != null">
+        cBomAttr = #{record.cbomattr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csupplytype != null">
+        cSupplyType = #{record.csupplytype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.baseqtyn != null">
+        BaseQtyN = #{record.baseqtyn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.baseqtyd != null">
+        BaseQtyD = #{record.baseqtyd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.compscrap != null">
+        CompScrap = #{record.compscrap,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ibomqty != null">
+        iBomQty = #{record.ibomqty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dcreatedate != null">
+        dCreateDate = #{record.dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cfree1 != null">
+        cFree1 = #{record.cfree1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfree2 != null">
+        cFree2 = #{record.cfree2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bom_opcomponent
+    set AutoId = #{record.autoid,jdbcType=INTEGER},
+      cAcc_Id = #{record.caccId,jdbcType=VARCHAR},
+      OpcomponentId = #{record.opcomponentid,jdbcType=INTEGER},
+      cInvCode = #{record.cinvcode,jdbcType=VARCHAR},
+      PartId = #{record.partid,jdbcType=INTEGER},
+      BomId = #{record.bomid,jdbcType=INTEGER},
+      iRowNo = #{record.irowno,jdbcType=INTEGER},
+      cBomGrade = #{record.cbomgrade,jdbcType=VARCHAR},
+      cInvCode_Sub = #{record.cinvcodeSub,jdbcType=VARCHAR},
+      PartId_Sub = #{record.partidSub,jdbcType=INTEGER},
+      cBomAttr = #{record.cbomattr,jdbcType=VARCHAR},
+      cSupplyType = #{record.csupplytype,jdbcType=VARCHAR},
+      BaseQtyN = #{record.baseqtyn,jdbcType=DECIMAL},
+      BaseQtyD = #{record.baseqtyd,jdbcType=DECIMAL},
+      CompScrap = #{record.compscrap,jdbcType=DECIMAL},
+      iBomQty = #{record.ibomqty,jdbcType=DECIMAL},
+      dCreateDate = #{record.dcreatedate,jdbcType=TIMESTAMP},
+      cFree1 = #{record.cfree1,jdbcType=VARCHAR},
+      cFree2 = #{record.cfree2,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponent">
+    update bom_opcomponent
+    <set>
+      <if test="caccId != null">
+        cAcc_Id = #{caccId,jdbcType=VARCHAR},
+      </if>
+      <if test="opcomponentid != null">
+        OpcomponentId = #{opcomponentid,jdbcType=INTEGER},
+      </if>
+      <if test="cinvcode != null">
+        cInvCode = #{cinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="partid != null">
+        PartId = #{partid,jdbcType=INTEGER},
+      </if>
+      <if test="bomid != null">
+        BomId = #{bomid,jdbcType=INTEGER},
+      </if>
+      <if test="irowno != null">
+        iRowNo = #{irowno,jdbcType=INTEGER},
+      </if>
+      <if test="cbomgrade != null">
+        cBomGrade = #{cbomgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvcodeSub != null">
+        cInvCode_Sub = #{cinvcodeSub,jdbcType=VARCHAR},
+      </if>
+      <if test="partidSub != null">
+        PartId_Sub = #{partidSub,jdbcType=INTEGER},
+      </if>
+      <if test="cbomattr != null">
+        cBomAttr = #{cbomattr,jdbcType=VARCHAR},
+      </if>
+      <if test="csupplytype != null">
+        cSupplyType = #{csupplytype,jdbcType=VARCHAR},
+      </if>
+      <if test="baseqtyn != null">
+        BaseQtyN = #{baseqtyn,jdbcType=DECIMAL},
+      </if>
+      <if test="baseqtyd != null">
+        BaseQtyD = #{baseqtyd,jdbcType=DECIMAL},
+      </if>
+      <if test="compscrap != null">
+        CompScrap = #{compscrap,jdbcType=DECIMAL},
+      </if>
+      <if test="ibomqty != null">
+        iBomQty = #{ibomqty,jdbcType=DECIMAL},
+      </if>
+      <if test="dcreatedate != null">
+        dCreateDate = #{dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cfree1 != null">
+        cFree1 = #{cfree1,jdbcType=VARCHAR},
+      </if>
+      <if test="cfree2 != null">
+        cFree2 = #{cfree2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.BomOpcomponent">
+    update bom_opcomponent
+    set cAcc_Id = #{caccId,jdbcType=VARCHAR},
+      OpcomponentId = #{opcomponentid,jdbcType=INTEGER},
+      cInvCode = #{cinvcode,jdbcType=VARCHAR},
+      PartId = #{partid,jdbcType=INTEGER},
+      BomId = #{bomid,jdbcType=INTEGER},
+      iRowNo = #{irowno,jdbcType=INTEGER},
+      cBomGrade = #{cbomgrade,jdbcType=VARCHAR},
+      cInvCode_Sub = #{cinvcodeSub,jdbcType=VARCHAR},
+      PartId_Sub = #{partidSub,jdbcType=INTEGER},
+      cBomAttr = #{cbomattr,jdbcType=VARCHAR},
+      cSupplyType = #{csupplytype,jdbcType=VARCHAR},
+      BaseQtyN = #{baseqtyn,jdbcType=DECIMAL},
+      BaseQtyD = #{baseqtyd,jdbcType=DECIMAL},
+      CompScrap = #{compscrap,jdbcType=DECIMAL},
+      iBomQty = #{ibomqty,jdbcType=DECIMAL},
+      dCreateDate = #{dcreatedate,jdbcType=TIMESTAMP},
+      cFree1 = #{cfree1,jdbcType=VARCHAR},
+      cFree2 = #{cfree2,jdbcType=VARCHAR}
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </update>
+</mapper>

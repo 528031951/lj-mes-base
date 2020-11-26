@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BmShiftExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.BaseShift">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="CREATOR_ID" jdbcType="NUMERIC" property="creatorId"/>
+        <result column="UPDATE_ID" jdbcType="NUMERIC" property="updateId"/>
+        <result column="WORK_SHOP_ID" jdbcType="NUMERIC" property="workShopId"/>
+        <result column="SHIFT_NAME" jdbcType="VARCHAR" property="shiftName"/>
+        <result column="START_TIME" jdbcType="VARCHAR" property="startTime"/>
+        <result column="END_TIME" jdbcType="VARCHAR" property="endTime"/>
+        <result column="SHIFT_CODE" jdbcType="VARCHAR" property="shiftCode"/>
+        <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable"/>
+        <result column="PRODUCTION_LINE_ID" jdbcType="NUMERIC" property="productionLineId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    ID, CREATE_TIME, UPDATE_TIME, CREATOR_ID, UPDATE_ID, WORK_SHOP_ID, SHIFT_NAME, START_TIME, 
+    END_TIME, SHIFT_CODE, IS_ENABLE, PRODUCTION_LINE_ID
+  </sql>
+    <select id="selectBmList" parameterType="com.bpm.lj.mes.base.server.dto.BmShiftDTO" resultMap="BaseResultMap">
+        select
+
+
+        <include refid="Base_Column_List"/>
+        from Base_SHIFT where 1=1
+
+        <if test="typeId != null">
+            and IS_ENABLE = 1
+        </if>
+        <if test="productionLineId != null">
+            AND PRODUCTION_LINE_ID = #{productionLineId}
+        </if>
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        order by CREATE_TIME desc
+    </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  select * from Base_SHIFT where id = #{id}
+</select>
+    <select id="queryByCode" resultType="java.lang.Integer" parameterType="com.bpm.lj.mes.base.server.dto.BmShiftDTO">
+        select count(*) from Base_SHIFT where SHIFT_CODE = #{shiftCode}
+        <if test="id != null">and id != #{id}</if>
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+   delete from Base_SHIFT where id = #{id}
+</delete>
+</mapper>

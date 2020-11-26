@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.WarehouseNestingTaskDetailsExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseNestingTaskDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_code" jdbcType="VARCHAR" property="taskCode" />
+    <result column="warehouse_code" jdbcType="VARCHAR" property="warehouseCode" />
+    <result column="material_code" jdbcType="VARCHAR" property="materialCode" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="specs_type" jdbcType="VARCHAR" property="specsType" />
+    <result column="reality_location" jdbcType="VARCHAR" property="realityLocation" />
+    <result column="receive_status" jdbcType="INTEGER" property="receiveStatus" />
+    <result column="isIt_urgent" jdbcType="INTEGER" property="isitUrgent" />
+    <result column="urge_inspection" jdbcType="INTEGER" property="urgeInspection" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="push_location" jdbcType="VARCHAR" property="pushLocation" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="delivery_order_no" jdbcType="VARCHAR" property="deliveryOrderNo" />
+    <result column="number" jdbcType="DECIMAL" property="number" />
+  </resultMap>
+  <resultMap id="QueryResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseBathNumQuery">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bill_no" jdbcType="VARCHAR" property="billNo" />
+    <result column="contract_no" jdbcType="VARCHAR" property="contractNo" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="bom_no" jdbcType="VARCHAR" property="bomNo" />
+    <result column="material_type" jdbcType="VARCHAR" property="materialType" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="material_model" jdbcType="VARCHAR" property="materialModel" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="demand_no" jdbcType="DECIMAL" property="demandNo" />
+    <result column="inventory_nlocked_num" jdbcType="INTEGER" property="inventoryNlockedNum" />
+    <result column="total_inventory" jdbcType="DECIMAL" property="totalInventory" />
+    <result column="make_no" jdbcType="DECIMAL" property="makeNo" />
+    <result column="fictitious_inventory_quantity" jdbcType="DECIMAL" property="fictitiousInventoryQuantity" />
+    <result column="consignment_stock" jdbcType="DECIMAL" property="consignmentStock" />
+    <result column="purchase_order_not_delivered" jdbcType="DECIMAL" property="purchaseOrderNotDelivered" />
+    <result column="purchase_order_not_deposit" jdbcType="DECIMAL" property="purchaseOrderNotDeposit" />
+    <result column="purchase_quantity_not_deposit" jdbcType="DECIMAL" property="purchaseQuantityNotDeposit" />
+    <result column="n_purchase_num" jdbcType="DECIMAL" property="nPurchaseNum" />
+    <result column="mini_inventory_num" jdbcType="DECIMAL" property="miniInventoryNum" />
+    <result column="max_inventory_num" jdbcType="DECIMAL" property="maxInventoryNum" />
+    <result column="procurement_cycle" jdbcType="VARCHAR" property="procurementCycle" />
+    <result column="lock_status" jdbcType="INTEGER" property="lockStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+    <result column="nlocked_num" jdbcType="DECIMAL" property="nlockedNum" />
+  </resultMap>
+<select id="setailsList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  select     id, task_code, warehouse_code, material_code, material_name, specs_type, reality_location,
+    receive_status, isIt_urgent, urge_inspection, remarks, push_location, create_time,
+    creater_id, update_time, updater_id, delivery_order_no, task_id，nlocked_num
+    from  warehouse_nesting_task_details
+    where task_id = #{id}
+</select>
+<select id="queryIsSet" resultType="java.lang.Integer" parameterType="com.bpm.lj.mes.base.server.vo.NestingTaskQueryVo">
+  select   count(1) from warehouse_bath_num_query where material_name = #{materialName} and batch_no = #{batchNo} and lock_status = 0
+</select>
+  <select id="queryNlockedNum" resultType="com.bpm.lj.mes.base.server.vo.NestingTaskQueryVo" parameterType="com.bpm.lj.mes.base.server.vo.NestingTaskQueryVo">
+  select  nlocked_num as nlockedNum ,inventory_nlocked_num as inventoryNlockedNum  from warehouse_bath_num_query where material_name = #{materialName} and batch_no = #{batchNo} and lock_status = 0
+</select>
+  <select id="queryChoose" resultMap="QueryResultMap" parameterType="com.bpm.lj.mes.base.server.vo.NestingTaskQueryVo">
+  select    id, batch_no  ,material_name ,material_model ，inventory_nlocked_num  from warehouse_bath_num_query where material_name = #{materialName}   and lock_status = 0
+</select>
+  <update id="urgent" parameterType="java.util.ArrayList">
+    update warehouse_nesting_task_details set isIt_urgent = 1 where id in
+    <foreach collection="ids" index="index" item="item" close=")" open="(" separator=",">
+      item
+    </foreach>
+  </update>
+
+  <update id="updateNum" parameterType="com.bpm.lj.mes.base.server.vo.NestingTaskNumVo">
+    update warehouse_bath_num_query set number = number + ${number} where id = #{detailId}
+  </update>
+  <update id="updateDetailNum" parameterType="com.bpm.lj.mes.base.server.vo.NestingTaskNumVo">
+    update warehouse_nesting_task_details set inventory_nlocked_num = inventory_nlocked_num - ${number} where id = #{chooseId}
+  </update>
+</mapper>

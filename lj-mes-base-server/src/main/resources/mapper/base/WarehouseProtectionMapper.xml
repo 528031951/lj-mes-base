@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.base.WarehouseProtectionMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseProtection">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="protection_name" jdbcType="VARCHAR" property="protectionName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="inventory" jdbcType="DECIMAL" property="inventory" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="available_inventory" jdbcType="DECIMAL" property="availableInventory" />
+    <result column="storage_location" jdbcType="VARCHAR" property="storageLocation" />
+    <result column="validity" jdbcType="INTEGER" property="validity" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, protection_name, `type`, version, supplier_name, inventory, unit, available_inventory, 
+    storage_location, validity, create_time, creater_id, update_time, updater_id
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtectionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from warehouse_protection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_protection
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_protection
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtectionExample">
+    delete from warehouse_protection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtection">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_protection (protection_name, `type`, version, 
+      supplier_name, inventory, unit, 
+      available_inventory, storage_location, validity, 
+      create_time, creater_id, update_time, 
+      updater_id)
+    values (#{protectionName,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, 
+      #{supplierName,jdbcType=VARCHAR}, #{inventory,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
+      #{availableInventory,jdbcType=DECIMAL}, #{storageLocation,jdbcType=VARCHAR}, #{validity,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updaterId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtection">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_protection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="protectionName != null">
+        protection_name,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="inventory != null">
+        inventory,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="availableInventory != null">
+        available_inventory,
+      </if>
+      <if test="storageLocation != null">
+        storage_location,
+      </if>
+      <if test="validity != null">
+        validity,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updaterId != null">
+        updater_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="protectionName != null">
+        #{protectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        #{inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="availableInventory != null">
+        #{availableInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="storageLocation != null">
+        #{storageLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null">
+        #{validity,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtectionExample" resultType="java.lang.Long">
+    select count(*) from warehouse_protection
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update warehouse_protection
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.protectionName != null">
+        protection_name = #{record.protectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        `type` = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierName != null">
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventory != null">
+        inventory = #{record.inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.availableInventory != null">
+        available_inventory = #{record.availableInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="record.storageLocation != null">
+        storage_location = #{record.storageLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.validity != null">
+        validity = #{record.validity,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        updater_id = #{record.updaterId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update warehouse_protection
+    set id = #{record.id,jdbcType=INTEGER},
+      protection_name = #{record.protectionName,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=VARCHAR},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      inventory = #{record.inventory,jdbcType=DECIMAL},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      available_inventory = #{record.availableInventory,jdbcType=DECIMAL},
+      storage_location = #{record.storageLocation,jdbcType=VARCHAR},
+      validity = #{record.validity,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creater_id = #{record.createrId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{record.updaterId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtection">
+    update warehouse_protection
+    <set>
+      <if test="protectionName != null">
+        protection_name = #{protectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        inventory = #{inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="availableInventory != null">
+        available_inventory = #{availableInventory,jdbcType=DECIMAL},
+      </if>
+      <if test="storageLocation != null">
+        storage_location = #{storageLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null">
+        validity = #{validity,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        updater_id = #{updaterId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.lj.mes.base.server.domain.WarehouseProtection">
+    update warehouse_protection
+    set protection_name = #{protectionName,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      version = #{version,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      inventory = #{inventory,jdbcType=DECIMAL},
+      unit = #{unit,jdbcType=VARCHAR},
+      available_inventory = #{availableInventory,jdbcType=DECIMAL},
+      storage_location = #{storageLocation,jdbcType=VARCHAR},
+      validity = #{validity,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creater_id = #{createrId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater_id = #{updaterId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

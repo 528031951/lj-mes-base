@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.BaseTeamExtMapper">
+    <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.dto.BaseTeamDTO">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="TEAM_NAME" jdbcType="VARCHAR" property="teamName"/>
+        <result column="TEAM_CODE" jdbcType="VARCHAR" property="teamCode"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="LINE_ID" jdbcType="NUMERIC" property="lineId"/>
+        <result column="UPDATE_ID" jdbcType="NUMERIC" property="updateId"/>
+        <result column="CREATE_ID" jdbcType="NUMERIC" property="createId"/>
+    </resultMap>
+    <resultMap id="BeamResultMap" type="com.bpm.lj.mes.base.server.vo.BaseTeamVo">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="TEAM_NAME" jdbcType="VARCHAR" property="teamName"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="TEAM_CODE" jdbcType="VARCHAR" property="teamCode"/>
+        <result column="STATUS" jdbcType="NUMERIC" property="status"/>
+        <result column="LINE_ID" jdbcType="NUMERIC" property="lineId"/>
+    </resultMap>
+
+    <resultMap id="UserResultMap" type="com.bpm.lj.mes.base.server.vo.SysUserVo">
+        <id column="ID" jdbcType="NUMERIC" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <select id="queryAllUser" resultMap="UserResultMap">
+    select NAME,ID FROM SYS_USER
+    </select>
+    <select id="queryUser" resultMap="UserResultMap" parameterType="java.lang.Long">
+    select su.id,su.name  from
+(SELECT blp.USER_ID as userid FROM BASE_TEAM_PERSON blp left join BASE_TEAM bt on bt.ID = blp.TEAM_ID
+
+where bt.ID = #{id} AND blp.STATUS = 1) temp
+  join SYS_USER su on su.id=temp.userid
+    </select>
+
+
+    <select id="queryBaseTeam" resultMap="BeamResultMap"
+            parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamQueryDTO">
+        SELECT ID,TEAM_NAME,TEAM_CODE,UPDATE_TIME,STATUS,production_line_id as LINE_ID FROM BASE_TEAM
+        <if test="typeId != null">
+            where IS_ENABLE = 1
+        </if>
+        ORDER BY UPDATE_TIME DESC
+    </select>
+    <select id="queryByCode" parameterType="com.bpm.lj.mes.base.server.dto.BaseTeamDTO"
+            resultType="java.lang.Integer">
+        select count(1) from BASE_TEAM where TEAM_CODE = #{teamCode}
+        <if test="id != null">
+            and id != #{id}
+        </if>
+    </select>
+    <select id="queryChoosedUser" resultType="java.lang.Integer">
+        select user_id from base_team_person where status =1
+    </select>
+    <select id="queryWorkCenter"
+            resultType="com.bpm.lj.mes.base.server.vo.SysUserVo">
+        select id,name  from   base_location where type  = 40
+    </select>
+    <select id="queryWorkCenterById" parameterType="com.bpm.lj.mes.base.server.vo.SysUserVo"
+            resultType="java.lang.Integer">
+        select count(1)  from   base_team_children where  team_id = #{teamId} and is_enable = 1 and  location_id = #{workCenterId}
+    </select>
+    <select id="queryEnableWorkCenterById" parameterType="com.bpm.lj.mes.base.server.vo.SysUserVo"
+            resultType="com.bpm.lj.mes.base.server.vo.SysUserVo">
+        select  bl.id,bl.name  from   base_team_children  b
+         left join base_location bl on bl.id = b.location_id
+         where  b.team_id = #{teamId} and b.is_enable = 1
+    </select>
+</mapper>

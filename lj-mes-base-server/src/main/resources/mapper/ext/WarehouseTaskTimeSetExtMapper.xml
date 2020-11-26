@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.lj.mes.base.server.mapper.ext.WarehouseTaskTimeSetExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.lj.mes.base.server.domain.WarehouseTaskTimeSet">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="time_task_num" jdbcType="VARCHAR" property="timeTaskNum" />
+    <result column="day_date" jdbcType="TIMESTAMP" property="dayDate" />
+    <result column="time_task_remarks" jdbcType="VARCHAR" property="timeTaskRemarks" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creater_id" jdbcType="INTEGER" property="createrId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+  </resultMap>
+  <resultMap id="BaseDtoResultMap" type="com.bpm.lj.mes.base.server.dto.WarehouseTaskTimeSetDTO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="time_task_num" jdbcType="VARCHAR" property="timeTaskNum" />
+    <result column="day_date" jdbcType="TIMESTAMP" property="dayDate" />
+    <result column="time_task_remarks" jdbcType="VARCHAR" property="timeTaskRemarks" />
+  </resultMap>
+
+  <select id="quepageList" resultMap="BaseDtoResultMap"  parameterType="com.bpm.lj.mes.base.server.dto.WarehouseTaskTimeSetDTO">
+    select * from  warehouse_task_time_set
+  </select>
+
+</mapper>
