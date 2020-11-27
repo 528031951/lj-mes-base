@@ -109,21 +109,26 @@ public class BaseInventoryAttributesServiceImpl implements BaseInventoryAttribut
                List<BaseInventoryAttributes>  attributesList=baseInventoryAttributesExtMapper.selectInventoryAttributes(autoIdList);
                //存在则进行修改
                if(null!=attributesList && attributesList.size()>0){
+                   List<BaseInventoryAttributes>  attributes= new ArrayList<>();
                    attributesList.forEach(v->{
                        List<InventoryVo> inventoryVoList = autoIdList.stream().filter(item -> item.getAutoId().equals(v.getPId())).collect(Collectors.toList());
                        if(null!=inventoryVoList && inventoryVoList.size()>0){
-                           List<BaseInventoryAttributesExcel> attributesExcels = excelList.stream().filter(item -> item.getCinvCode().equals(inventoryVoList.get(0).getCinvCode())).collect(Collectors.toList());
+                           InventoryVo inventoryVo = inventoryVoList.get(0);
+                           System.out.println(excelList);
+                           List<BaseInventoryAttributesExcel> attributesExcels = excelList.stream().filter(item -> item.getCinvCode().equals(inventoryVo.getCinvCode())).collect(Collectors.toList());
                           if(null!=attributesExcels && attributesExcels.size()>0){
                               BaseInventoryAttributesExcel collect = attributesExcels.get(0);
                               v.setLibraryAge(collect.getLibraryAge());
                               v.setMiniStock(collect.getMiniStock());
                               v.setMaxStock(collect.getMaxStock());
                               v.setRequisitionDay(collect.getRequisitionDay());
-                              baseInventoryAttributesMapper.updateByPrimaryKeySelective(v);
+                              attributes.add(v);
                               excelList.remove(collect);
                           }
                        }
                    });
+                   //批量修改
+                   baseInventoryAttributesExtMapper.updateInventoryAttributes(attributes);
                }
                 //判断还有数据则新增
                 if(null!=excelList && excelList.size()>0){

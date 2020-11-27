@@ -10,7 +10,7 @@ spring:
     username: root
     password: Ljmes@123
     #url: jdbc:mysql://10.0.10.22:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8  47.108.65.249  Ljmes@123   pass123456   10.0.10.33
-    url: jdbc:mysql://10.0.10.22:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://10.0.10.22:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
 eureka:
   instance:
     prefer-ip-address: true

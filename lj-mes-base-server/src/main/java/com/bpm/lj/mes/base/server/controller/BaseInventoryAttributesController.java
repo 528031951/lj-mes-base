@@ -1,6 +1,7 @@
 package com.bpm.lj.mes.base.server.controller;
 
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import com.bpm.common.service.util.ExcelExportStyle;
 import com.bpm.common.service.util.ExcelUtil;
@@ -111,6 +112,10 @@ public class BaseInventoryAttributesController {
     )
     public void importExcelDemo(@RequestParam("file") MultipartFile file) throws IOException {
         //导入操作
+        ImportParams params = new ImportParams();
+        params.setTitleRows(1);
+        params.setHeadRows(1);
+        params.setKeyIndex(0);
         List<BaseInventoryAttributesExcel> excelList = ExcelUtil.importExcel(file, 0, 1, BaseInventoryAttributesExcel.class);
         baseInventoryAttributesService.addExcel(excelList);
     }

@@ -27,4 +27,6 @@ public interface BaseInventoryAttributesExtMapper {
 
     List<BaseInventoryAttributesExcelVo> selectListInventoryAttributes();
 
+
+    void updateInventoryAttributes(List<BaseInventoryAttributes> list);
 }
