@@ -15,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class BaseInventoryAttributesServiceImpl implements BaseInventoryAttributesService {
     @Resource
     private BaseInventoryAttributesMapper baseInventoryAttributesMapper;
@@ -108,31 +110,40 @@ public class BaseInventoryAttributesServiceImpl implements BaseInventoryAttribut
                //存在则进行修改
                if(null!=attributesList && attributesList.size()>0){
                    attributesList.forEach(v->{
-                       InventoryVo inventoryVo = autoIdList.stream().filter(item -> item.getAutoId().equals(v.getPId())).collect(Collectors.toList()).get(0);
-                       BaseInventoryAttributesExcel collect = excelList.stream().filter(item -> item.getCinvCode().equals(inventoryVo.getCinvCode())).collect(Collectors.toList()).get(0);
-                       v.setLibraryAge(collect.getLibraryAge());
-                       v.setMiniStock(collect.getMiniStock());
-                       v.setMaxStock(collect.getMaxStock());
-                       v.setRequisitionDay(collect.getRequisitionDay());
-                       baseInventoryAttributesMapper.updateByPrimaryKeySelective(v);
-                       excelList.remove(collect);
+                       List<InventoryVo> inventoryVoList = autoIdList.stream().filter(item -> item.getAutoId().equals(v.getPId())).collect(Collectors.toList());
+                       if(null!=inventoryVoList && inventoryVoList.size()>0){
+                           List<BaseInventoryAttributesExcel> attributesExcels = excelList.stream().filter(item -> item.getCinvCode().equals(inventoryVoList.get(0).getCinvCode())).collect(Collectors.toList());
+                          if(null!=attributesExcels && attributesExcels.size()>0){
+                              BaseInventoryAttributesExcel collect = attributesExcels.get(0);
+                              v.setLibraryAge(collect.getLibraryAge());
+                              v.setMiniStock(collect.getMiniStock());
+                              v.setMaxStock(collect.getMaxStock());
+                              v.setRequisitionDay(collect.getRequisitionDay());
+                              baseInventoryAttributesMapper.updateByPrimaryKeySelective(v);
+                              excelList.remove(collect);
+                          }
+                       }
                    });
-               }else {
-                   //不存在则新增
-                   for (InventoryVo vo : autoIdList) {
-                       BaseInventoryAttributes attributes=new BaseInventoryAttributes();
-                       BaseInventoryAttributesExcel attributesExcel = excelList.stream().filter(item -> item.getCinvCode().equals(vo.getCinvCode())).collect(Collectors.toList()).get(0);
-                       attributes.setPId(vo.getAutoId())
-                               .setMaxStock(attributesExcel.getMaxStock())
-                               .setMiniStock(attributesExcel.getMiniStock())
-                               .setLibraryAge(attributesExcel.getLibraryAge())
-                               .setRequisitionDay(attributesExcel.getRequisitionDay());
-                       attributesLists.add(attributes);
-                   }
                }
+                //判断还有数据则新增
+                if(null!=excelList && excelList.size()>0){
+                    //不存在则新增
+                    for (InventoryVo vo : autoIdList) {
+                        BaseInventoryAttributes attributes=new BaseInventoryAttributes();
+                        List<BaseInventoryAttributesExcel> attributesExcelList = excelList.stream().filter(item -> item.getCinvCode().equals(vo.getCinvCode())).collect(Collectors.toList());
+                        if(null!=attributesExcelList && attributesExcelList.size()>0){
+                            BaseInventoryAttributesExcel attributesExcel = attributesExcelList.get(0);
+                            attributes.setPId(vo.getAutoId())
+                                    .setMaxStock(attributesExcel.getMaxStock())
+                                    .setMiniStock(attributesExcel.getMiniStock())
+                                    .setLibraryAge(attributesExcel.getLibraryAge())
+                                    .setRequisitionDay(attributesExcel.getRequisitionDay());
+                            attributesLists.add(attributes);
+                        }
+                    }
+                }
             }
         }
-
         //新增
         if(null!=attributesLists && attributesLists.size()>0){
             baseInventoryAttributesExtMapper.addInventoryAttributes(attributesLists);
